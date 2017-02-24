@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App.vue'
 import page from './page'
 import store from './vuex/store'
 import Fastclick from 'fastclick'
@@ -14,7 +13,7 @@ Vue.use(VueRouter)
 let routes = [
   {
     path: '/',
-    component: App
+    component: page.Main
   },
   {
     path: '/list',
