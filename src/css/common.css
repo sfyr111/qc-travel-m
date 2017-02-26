@@ -24,8 +24,12 @@
 }
 html, body {
   box-sizing: border-box;
+  height: 100%;
 }
-
+#app {
+	width: 100%;
+	height: 100%;
+}
 /*--- 修改vux组件 ---*/
 .weui-cells:before, .weui-cells:after, .hotel_search_lay_str .weui-cell_access .weui-cell__ft:after{
 	display: none;

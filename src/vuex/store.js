@@ -2,24 +2,17 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
+import Loading from './modules/Loading'
+import HotelList from './modules/HotelList'
 
 Vue.use(Vuex)
-
-const state = {
-	hotelList: {}
-}
-
-const mutations = {
-	HOTELLIST: (state, data) => {
-		state.hotelList = data
-	}
-}
-
 var store = new Vuex.Store({
 	actions,
 	getters,
-	state,
-	mutations
+	modules: {
+		Loading,
+		HotelList
+	}
 })
 
 export default store

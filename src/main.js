@@ -23,12 +23,26 @@ let routes = [
   {
     path: '/hotelsearch',
     component: page.HotelSearch
+  },
+  //  机票搜索
+  {
+    path: '/airsearch',
+    component: page.AirSearch
   }
 ]
 const router = new VueRouter({
   routes: routes
 })
-
+// 添加loading动画
+router.beforeEach(function (to, from, next) {
+  store.commit('ISLOADING', true)
+  next()
+})
+router.afterEach(function (to) {
+  setTimeout(function () {
+    store.commit('ISLOADING', false)
+  }.bind(this), 1000)  
+})
 new Vue({
   router,
   store
