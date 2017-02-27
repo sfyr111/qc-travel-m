@@ -8,7 +8,7 @@ import showTips from '../components/ShowTips'
 * @private
 * @method merge
 * @param {Object} defaultOptions
-* @param {Object} options  
+* @param {Object} options
 * @return {Object} 返回已合并对象
 */
 function merge(defaultOptions, options) {
@@ -47,7 +47,7 @@ var request = {
     * 公用http请求方法，根据参数发起请求，返回promise对象
     * @private
     * @method makeRequest
-    * @param {Object} url 
+    * @param {Object} url
     * @param {Object} options
     * @return {Object} description
     */
@@ -59,14 +59,14 @@ var request = {
             dataType: 'json',
             contentType: 'application/json',
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json, text/javascript, */*; q=0.01'
             }
         }
         //本地开发环境下为每个请求添加webLappToken进行通信
         if(process.env.NODE_ENV !== 'production' && localStorage.getItem('auth')){
             devAuthInfo = JSON.parse(localStorage.getItem('auth'))
         }
-        
+
         var params = merge(defaultOptions, options || {})
 
         //如果需要传输数据
@@ -105,7 +105,7 @@ var request = {
                 if (err) {
                    //如果有传入错误提示
                    options.errMsg ? showTips(options.errMsg) : void(0)
-                   return reject(err); 
+                   return reject(err);
                 }
                 //console.log(res.body)
                 resolve(res);

@@ -5,7 +5,7 @@ import store from './vuex/store'
 import Fastclick from 'fastclick'
 import eruda from 'eruda'
 
-//eruda.init()
+// eruda.init()
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
@@ -28,6 +28,12 @@ let routes = [
   {
     path: '/airsearch',
     component: page.AirSearch
+  },
+  //  酒店列表
+  {
+    path: '/hotellist',
+    component: page.HotelList,
+    name: 'hotellist'
   }
 ]
 const router = new VueRouter({
@@ -41,7 +47,7 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(function (to) {
   setTimeout(function () {
     store.commit('ISLOADING', false)
-  }.bind(this), 1000)  
+  }.bind(this), 1000)
 })
 new Vue({
   router,

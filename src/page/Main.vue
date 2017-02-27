@@ -18,9 +18,15 @@
     height: 2.30rem;
   }
   .to_air {
+    background-image: url("../assets/images/bg_air.png");
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: #479af3;
   }
   .to_hotel {
+    background-image: url("../assets/images/bg_hotel.png");
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: #ff7572;
   }
   .btn_white {

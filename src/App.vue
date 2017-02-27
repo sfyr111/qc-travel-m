@@ -21,8 +21,4 @@ export default {
 @import url('./css/reset.css');
 @import url('./css/common.css');
 @import url('./css/lib/iconfont/iconfont.css');
-
-body {
-	font-size: .28rem;
-}
 </style>

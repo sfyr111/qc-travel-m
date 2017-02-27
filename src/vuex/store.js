@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import Loading from './modules/Loading'
 import HotelList from './modules/HotelList'
+import CityAir from './modules/CityAir'
 
 Vue.use(Vuex)
 var store = new Vuex.Store({
@@ -11,7 +12,8 @@ var store = new Vuex.Store({
 	getters,
 	modules: {
 		Loading,
-		HotelList
+		HotelList,
+    CityAir
 	}
 })
 

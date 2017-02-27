@@ -1,35 +1,55 @@
 <template>
 	<transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutRight">
-		<div class="a_box">
-			<div class="row r_city">
-				<span class="city">深圳</span>
-				<i class="icon iconfont icon-wangfan"></i>
-				<span class="city">北京</span>
-			</div>
-			<div class="row r_date clearfix">
-				<div class="fl date">
-					<span class="date_name">去程</span>
-					<group class="fr date_time hotel_search_lay_str">
-				      <calendar v-model="startDate" title="" disable-past></calendar>
-				    </group>
-				</div>
-				<div class="fr date">
-					<span class="date_name">返程</span>
-					<group class="fr not_choose date_time hotel_search_lay_str">
-				      <calendar v-model="endDate" title="" disable-past></calendar>
-				    </group>
-				</div>
-			</div>
-			<!-- 开始查询 -->
-			<M-D-Button :font="style" :str="str" @btn-click="btnClick"></M-D-Button>
-			<loading v-model="isLoading"></loading>
-		</div>
+    <div>
+      <div class="a_box">
+        <div class="row r_city">
+          <span class="city" @click="showCityDepBox()">{{cityDep.cityName}}</span>
+          <i class="icon" @click="replaceCity()"></i>
+          <span class="city" @click="showCityArrBox()">{{cityArr.cityName}}</span>
+        </div>
+        <div class="row r_date clearfix">
+          <div class="fl date">
+            <span class="date_name">去程</span>
+            <group class="fr date_time hotel_search_lay_str">
+                <calendar v-model="startDate" title="" disable-past></calendar>
+              </group>
+          </div>
+          <div class="fr date">
+            <span class="date_name">返程</span>
+            <group class="fr not_choose date_time hotel_search_lay_str">
+                <calendar v-model="endDate" title="" disable-past></calendar>
+              </group>
+          </div>
+        </div>
+        <!-- 开始查询 -->
+        <M-D-Button :font="style" :str="str" @btn-click="btnClick"></M-D-Button>
+        <loading v-model="isLoading"></loading>
+
+
+      </div>
+      <!-- 加载城市组件 -->
+      <city-air
+        :show="showCityDep"
+        :city-list="cityAirList"
+        :active-city="cityDep"
+        :city-query="cityQueryList"
+        @getCity="getCityDep"
+        @search-key="cityQuery"></city-air>
+      <city-air
+        :show="showCityArr"
+        :city-list="cityAirList"
+        :active-city="cityArr"
+        :city-query="cityQueryList"
+        @getCity="getCityArr"
+        @search-key="cityQuery"></city-air>
+    </div>
 	</transition>
 </template>
 <script>
-	import { MDButton } from '../components'
+	import { MDButton, CityAir } from '../components'
 	import { Loading, Group, Calendar } from 'vux'
-	import { mapGetters, mapActions } from 'vuex'
+	import { mapGetters } from 'vuex'
+  import configUrl from '../data/configUrl'
 	export default {
 		data () {
 			return {
@@ -38,25 +58,36 @@
 					height: '.8rem',
 					'font-size': '.32rem',
 					'color': '#fff',
-					background: '#ee3535',
+					background: '#e30b20',
 					'margin': '.5rem auto 0 auto',
 					display: 'block',
 					'border-radius': '.1rem'
 				},									//	按钮样式
 				str: '搜索机票',		//	按钮内容
 				startDate: '',				//	住店日期
-				endDate: ''						//	离店日期
+				endDate: '',						//	离店日期
+        showCityDep: false,     // 城市筛选组件
+        showCityArr: false,     // 城市筛选组件
+        cityDep: {
+          cityName: '北京'
+        },
+        cityArr: {
+          cityName: '上海'
+        }
 			}
 		},
 		computed: {
 		    ...mapGetters({
-			    isLoading: 'getLoading'
+			    isLoading: 'getLoading',
+          cityAirList: 'getCityAirList',
+          cityQueryList: 'getCityQuery'
 		    }),
 		},
 		components: {
 			MDButton,
 			Loading,
 			Group,
+      CityAir,
 			Calendar
 		},
 		methods: {
@@ -65,7 +96,57 @@
 				setTimeout(function () {
 					this.$store.dispatch('upLoadingStatus', false)
 				}.bind(this), 2000)
-			}
+			},
+      showCityDepBox () {
+				this.showCityDep = true
+        let opt = {
+					url: configUrl.cityAir.dataUrl,
+          type: 'get',
+        }
+        this.$store.dispatch('cityAirList', opt).then(function (resp) {
+          console.log(resp)
+        })
+      },
+      getCityDep (city) {
+        this.cityDep.cityName = city.cityCn
+        this.showCityDep = false
+      },
+      showCityArrBox () {
+        this.showCityArr = true
+        let opt = {
+          url: configUrl.cityAir.dataUrl,
+          type: 'get',
+        }
+        this.$store.dispatch('cityAirList', opt).then(function (resp) {
+          console.log(resp)
+        })
+      },
+      getCityArr (city) {
+        this.cityArr.cityName = city.cityCn
+        this.showCityArr = false
+      },
+      cityQuery (key) {
+				let opt = {
+					url: configUrl.cityAirKey.dataUrl,
+          type: 'get',
+          data: {
+						name: key
+          }
+        }
+        this.$store.dispatch('cityQuery', opt).then(function (resp) {
+          console.log(resp)
+        })
+      },
+      replaceCity () {
+				if (this.cityDep && this.cityDep.cityName && this.cityArr && this.cityArr.cityName) {
+					let temp = null;
+          temp = this.cityDep.cityName
+          this.cityDep.cityName = this.cityArr.cityName
+          this.cityArr.cityName = temp
+        } else {
+					return
+        }
+      }
 		}
 	}
 </script>
@@ -84,8 +165,14 @@
 		.r_city {
 			border-bottom: .01rem solid #cccccc;
 			.icon {
-				font-size: .44rem;
-				color: #5495e6;
+        display: inline-block;
+        width: .5rem;
+        height: .5rem;
+        vertical-align: -.1rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 24px;
+				background-image: url("../assets/images/single2return.png");
 			}
 			.city {
 				display: inline-block;

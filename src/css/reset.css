@@ -14,7 +14,7 @@ h1, h2, h3, h4{
     font-weight: normal;
 }
 body {
-    font-size: .28rem;
+    font-size: .24rem;
 }
 a{
   webkit-tap-highlight-color: transparent;
@@ -38,8 +38,8 @@ button.active:active{
     background: rgba(215, 215, 215, 2);
 }
 /* webkit表单输入框placeholder的颜色值能改变 */
-input::-webkit-input-placeholder{color:red;}
-input:focus::-webkit-input-placeholder{color:gray;}
+/* input::-webkit-input-placeholder{color:red;}
+input:focus::-webkit-input-placeholder{color:gray;} */
 img{
     border:none;
     max-width:100%;
@@ -139,7 +139,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     left: 0;
 }
 
-.border-b:after{
+.border-b:after, .border-bottom:before{
     display: block;
     content: "";
     width: 200%;
@@ -153,7 +153,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     bottom: 0;
     left: 0;
 }
-.border-l:before{
+.border-l:before, .border-left:after{
     display: block;
     content: "";
     width: 1px;
@@ -167,7 +167,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     top: 0;
     left: 0;
 }
-.border-r:before{
+.border-r:before, .border-right:after{
     display: block;
     content: "";
     width: 1px;

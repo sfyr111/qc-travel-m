@@ -1,13 +1,17 @@
 import Loading from './Loading'
-import ShowTips from './ShowTips'
+import showTips from './ShowTips'
 import MDButton from './MDButton'
 import CityAir from './CityAir'
+import HotelList from './HotelList'
+import HotelListHead from './HotelListHead'
 
 const components = {
 	Loading,
-	ShowTips,
+	showTips,
 	MDButton,
-	CityAir
+	CityAir,
+	HotelList,
+	HotelListHead
 }
 
 module.exports = components

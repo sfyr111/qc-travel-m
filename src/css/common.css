@@ -7,6 +7,15 @@
 	transform: translate3d(-50%, -50%, 0);
 	-webkit-transform: translate3d(-50%, -50%, 0);
 }
+.font24{
+	font-size: .24rem;
+}
+.font28{
+	font-size: .28rem;
+}
+.font32 {
+	font-size: .32rem;
+}
 .font36{
 	font-size: .36rem;
 }
@@ -16,6 +25,9 @@
 .color_66{
 	color: #666;
 }
+.bg_cc{
+	background: #e6e6e6;
+}
 .red_icon{
 	color: #ee3535;
 }
@@ -24,7 +36,8 @@
 }
 html, body {
   box-sizing: border-box;
-  height: 100%;
+  min-height: 100%;
+  color: #333;
 }
 #app {
 	width: 100%;
