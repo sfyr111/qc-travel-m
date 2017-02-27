@@ -11,7 +11,7 @@
         <i class="icon iconfont icon-rili1"></i>
         <group class="air_search_str date_time">
           <calendar
-            v-model="date"
+            v-model="dateStr"
             title=""
             disable-past
             :weeks-list="weeksList"
@@ -107,6 +107,7 @@
       return {
         weeksList: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
         highlightWeekend: true,
+        dateStr: this.date
       }
     },
     methods: {
@@ -118,12 +119,14 @@
           return
         }
         if (!this.isDisabled) {
-          let time = dateFormat(new Date(+new Date(this.date) - 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
+          let time = dateFormat(new Date(+new Date(this.dateStr) - 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
+          this.dateStr = time
           this.$emit('select-date', time)
         }
       },
       goNext () {
-        let time = dateFormat(new Date(+new Date(this.date) + 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
+        let time = dateFormat(new Date(+new Date(this.dateStr) + 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
+        this.dateStr = time
         this.$emit('select-date', time)
       }
     }
