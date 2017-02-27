@@ -44,7 +44,10 @@ html, body {
 	height: 100%;
 }
 /*--- 修改vux组件 ---*/
-.weui-cells:before, .weui-cells:after, .hotel_search_lay_str .weui-cell_access .weui-cell__ft:after{
+.weui-cells:before, 
+.weui-cells:after, 
+.hotel_search_lay_str .weui-cell_access .weui-cell__ft:after,
+.air_search_str .weui-cell_access .weui-cell__ft:after{
 	display: none;
 }
 .weui-cell_access .weui-cell__ft{
@@ -55,8 +58,17 @@ html, body {
 	padding: 0 !important;
 	height: 1.1rem;
 }
+.air_search_str .weui-cell {
+	height: .80rem;
+}
 .weui-cells, .weui-cell{
 	margin: 0 !important;
+}
+.air_search_str .weui-cells {	
+	background-color: inherit!important;
+}
+.air_search_str .weui-cell__ft {
+	color: #333333;
 }
 .inline-calendar th{
 	text-align: center;
