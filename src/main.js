@@ -29,6 +29,12 @@ let routes = [
     path: '/airsearch',
     component: page.AirSearch
   },
+  //  机票列表
+  {
+    path: '/airList',
+    component: page.AirList,
+    name: 'airList'
+  },
   //  酒店列表
   {
     path: '/hotellist',

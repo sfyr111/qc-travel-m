@@ -1,5 +1,5 @@
 <template>
-	<transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutRight">
+	<transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
     <div>
       <div class="a_box">
         <div class="row r_city">
@@ -11,20 +11,35 @@
           <div class="fl date">
             <span class="date_name">去程</span>
             <group class="fr date_time hotel_search_lay_str">
-                <calendar v-model="startDate" title="" disable-past></calendar>
+                <calendar
+                  v-model="startDate"
+                  title=""
+                  disable-past
+                  :weeks-list="weeksList"
+                  :replace-text-list="todayStr"
+                  :highlight-weekend="highlightWeekend"
+                  @on-change="selectStartDate"
+                ></calendar>
               </group>
           </div>
           <div class="fr date">
             <span class="date_name">返程</span>
             <group class="fr not_choose date_time hotel_search_lay_str">
-                <calendar v-model="endDate" title="" disable-past></calendar>
+                <calendar
+                  v-model="endDate"
+                  title=""
+                  disable-past
+                  :weeks-list="weeksList"
+                  :start-date="endDate2"
+                  :highlight-weekend="highlightWeekend"
+                  @on-change="selectEndDate"
+                ></calendar>
               </group>
           </div>
         </div>
         <!-- 开始查询 -->
         <M-D-Button :font="style" :str="str" @btn-click="btnClick"></M-D-Button>
         <loading v-model="isLoading"></loading>
-
 
       </div>
       <!-- 加载城市组件 -->
@@ -47,7 +62,7 @@
 </template>
 <script>
 	import { MDButton, CityAir } from '../components'
-	import { Loading, Group, Calendar } from 'vux'
+	import { Loading, Group, Calendar, dateFormat } from 'vux'
 	import { mapGetters } from 'vuex'
   import configUrl from '../data/configUrl'
 	export default {
@@ -64,8 +79,9 @@
 					'border-radius': '.1rem'
 				},									//	按钮样式
 				str: '搜索机票',		//	按钮内容
-				startDate: '',				//	住店日期
+				startDate: dateFormat(new Date(), 'YYYY-MM-DD'),				//	住店日期
 				endDate: '',						//	离店日期
+        endDate2: '',
         showCityDep: false,     // 城市筛选组件
         showCityArr: false,     // 城市筛选组件
         cityDep: {
@@ -73,7 +89,13 @@
         },
         cityArr: {
           cityName: '上海'
-        }
+        },
+        weeksList: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+        todayStr: {
+          'TODAY':'今'
+        },					//	替换今天日期为今
+        highlightWeekend: true,						//	高亮周末
+        dayTime: 24 * 60 * 60 * 1000,			//	一天的时间戳
 			}
 		},
 		computed: {
@@ -91,12 +113,19 @@
 			Calendar
 		},
 		methods: {
+			// 查询
 			btnClick () {
-				this.$store.dispatch('upLoadingStatus', true)
-				setTimeout(function () {
-					this.$store.dispatch('upLoadingStatus', false)
-				}.bind(this), 2000)
+        this.$router.push({
+        	name: 'airList',
+          query: {
+            startDate: this.startDate,
+            endDate: this.endDate,
+            arrCity: this.cityArr.cityName,
+            depCity: this.cityDep.cityName,
+          }
+        })
 			},
+
       showCityDepBox () {
 				this.showCityDep = true
         let opt = {
@@ -137,6 +166,7 @@
           console.log(resp)
         })
       },
+      // 交换城市
       replaceCity () {
 				if (this.cityDep && this.cityDep.cityName && this.cityArr && this.cityArr.cityName) {
 					let temp = null;
@@ -146,7 +176,29 @@
         } else {
 					return
         }
-      }
+      },
+      selectStartDate: function (val) {
+        //console.log(val)
+        this.startDate = val
+        let startDate = +new Date(this.startDate)
+        let endDate = +new Date(this.endDate)
+        let endDate2 = dateFormat(new Date(startDate + this.dayTime), 'YYYY-MM-DD')
+
+        this.endDate2 = endDate2
+        //	住店日期大于离店日期
+        if (startDate >= endDate) {
+          this.endDate = endDate2
+        }
+      },
+      //	返程日期
+      selectEndDate (val) {
+        //console.log('返程日期：' + val)
+        if (+new Date(val) < +new Date(this.endDate2)) {
+          val = this.endDate2
+        }
+
+        this.endDate = val
+      },
 		}
 	}
 </script>
