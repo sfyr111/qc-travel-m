@@ -145,8 +145,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     width: 200%;
     height: 1px;
     border-bottom: 1px solid #e0e0e0;
-    transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
+    transform-origin: 0 100%;
+    -webkit-transform-origin: 0 100%;
     transform: scale(.5);
     -webkit-transform: scale(.5);
     position: absolute;

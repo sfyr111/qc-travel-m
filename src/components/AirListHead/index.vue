@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="air_head_box">
     <div class="trip">
       <span>{{cityDep}}</span>
       <i class="icon iconfont icon-jiantou1"></i>
@@ -19,11 +19,17 @@
           ></calendar>
         </group>
       </div>
-      <span class="go_next" @click="goNext()">后一天<i class="icon iconfont icon-xiangyoujiantou"></i></span>
+      <span class="go_next" @click.stop="goNext()">后一天<i class="icon iconfont icon-xiangyoujiantou"></i></span>
     </div>
   </div>
 </template>
 <style scoped>
+  .air_head_box {
+    position: fixed;
+    top: 0;
+    height: 1.62rem;
+    z-index: 999;
+  }
   .trip {
     width: 100%;
     height: .80rem;
@@ -121,13 +127,13 @@
         if (!this.isDisabled) {
           let time = dateFormat(new Date(+new Date(this.dateStr) - 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
           this.dateStr = time
-          this.$emit('select-date', time)
+          this.selectDate(time)
         }
       },
       goNext () {
         let time = dateFormat(new Date(+new Date(this.dateStr) + 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
         this.dateStr = time
-        this.$emit('select-date', time)
+        this.selectDate(time)
       }
     }
   }

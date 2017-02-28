@@ -2,48 +2,70 @@ import http from '../../api/http'
 import * as types from '../mutation-types.js'
 
 const state = {
-  hotelList: {}
+  hotelCityInput: [],      //  酒店城市模糊匹配
+  hotelCity: [],           //  酒店城市
 }
 
 // getters
 const getters = {
-  getHotelList: state => state.hotelList
+  //  酒店城市模糊匹配
+  getHotelCityInput: state => state.hotelCityInput,
+
+  //  酒店城市
+  getHotelCity: state => state.hotelCity
 }
 
 const actions = {
-  hotelList ( { commit, state }, options ) {
-    let url = 'http://192.168.16.210:8080/qc-travel/security/hotel/get_hotel_search_data'
-    let param = {
-            cityId: '819903',
-            checkInDate: '2017-02-08',
-            checkOutDate: '2017-02-09',
-            minPrice: '',
-            maxPrice: '',
-            star: '',
-            cbdId: '',
-            disId: '',
-            page: 1,
-            pageSize: 10,
-            hotelSortType: 'sort_hot_level_desc',
-            name: ''
-        };
-               
+  //  酒店城市模糊匹配
+  hotelCityInput ( { commit, state }, opt ) {
 	    return new Promise(function ( resolve, reject ) {
-	        http.fetch(url, {
-	            loading: true,
-	            data: param,
-	            errMsg: options.errMsg
+	        http.fetch(opt.url, {
+            type: opt.type,
+	            data: opt.data,
+	            errMsg: opt.errMsg
 	        })
 	        .then(res => {
-	            commit(types.HOTELLIST, res.body.result)
+	            if (res.body.success) {
+                commit(types.HOTELCITYINPUT, res.body.data)
+                resolve(res.body.data)
+              }
+              else {
+                reject(res.body.msg)
+              }
 	        })
-	    });
-	}
+	    })
+	},
+
+  //  酒店城市
+  hotelCity ({ commit, state }, opt) {
+    return new Promise(function ( resolve, reject ) {
+        http.fetch(opt.url, {
+          type: opt.type,
+            data: opt.data,
+            errMsg: opt.errMsg
+        })
+        .then(res => {
+            if (res.body.success) {
+              commit(types.HOTELCITY, res.body.data)
+              resolve(res.body.data)
+            }
+            else {
+              reject(res.body.msg)
+            }
+        })
+    })
+  }
 }
 
 const mutations = {
-  [types.HOTELLIST]: (state, data) => {
-    state.hotelList = data
+  //  酒店城市模糊匹配
+  [types.HOTELCITYINPUT]: (state, data) => {
+    state.hotelCityInput = data
+  },
+
+  //  酒店城市模糊匹配
+  [types.HOTELCITY]: (state, data) => {
+    state.hotelCity = data
   },
 }
 

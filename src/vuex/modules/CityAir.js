@@ -13,9 +13,11 @@ const getters = {
 }
 
 const actions = {
-  cityAirList ( { commit }, options ) {
+  cityAirList ( { commit, state }, options ) {
     let url = options.url
     let data = options.data
+
+    state.cityAirList = []
     return new Promise(function ( resolve, reject ) {
       http.fetch(url, {
         loading: true,
@@ -34,10 +36,12 @@ const actions = {
       })
     });
   },
-  cityQuery ( { commit }, options ) {
+  cityQuery ( { commit, state }, options ) {
     let url = options.url
     let data = options.data
     let type = options.type
+
+    state.cityQuery = []
     return new Promise(function ( resolve, reject ) {
       http.fetch(url, {
         loading: true,

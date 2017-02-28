@@ -7,8 +7,14 @@
 	transform: translate3d(-50%, -50%, 0);
 	-webkit-transform: translate3d(-50%, -50%, 0);
 }
+.none{
+	display: none;
+}
 .font24{
 	font-size: .24rem;
+}
+.font26{
+	font-size: .26rem;
 }
 .font28{
 	font-size: .28rem;
@@ -25,8 +31,14 @@
 .color_66{
 	color: #666;
 }
+.bg_ff{
+	background: #fff;
+}
 .bg_cc{
 	background: #e6e6e6;
+}
+.bg_f6{
+	background: #f6f6f6;
 }
 .red_icon{
 	color: #ee3535;
@@ -61,6 +73,10 @@ html, body {
 .air_search_str .weui-cell {
 	height: .80rem;
 }
+.weui-cells{
+	font-size: .28rem;
+	background: none;
+}
 .weui-cells, .weui-cell{
 	margin: 0 !important;
 }
@@ -72,4 +88,7 @@ html, body {
 }
 .inline-calendar th{
 	text-align: center;
+}
+.vux-popup-mask.vux-popup-show{
+	z-index: 110;
 }

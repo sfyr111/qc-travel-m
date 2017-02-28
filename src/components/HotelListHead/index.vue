@@ -1,7 +1,7 @@
 <template>
 	<div class="hotel_list_search clearfix bg_cc">
-		<div class="left bsizing ver-middle fl">
-			<em class="font28">深圳</em>
+		<div class="left bsizing ver-middle fl" @click="showSelectCity">
+			<em class="font28">{{ cityName }}</em>
 			<i class="icon iconfont">&#xe615;</i>
 		</div>
 		<div class="right bsizing fl">
@@ -51,3 +51,20 @@
 	}
 }
 </style>
+
+<script>
+export default {
+	props: {
+		cityName: {
+			type: String,
+			default: '北京'
+		}
+	},
+
+	methods: {
+		showSelectCity () {
+			this.$emit('show-select-city')
+		}
+	}
+}
+</script>

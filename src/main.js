@@ -40,6 +40,18 @@ let routes = [
     path: '/hotellist',
     component: page.HotelList,
     name: 'hotellist'
+  },
+  //  管理中心
+  {
+    path: '/managementcenter',
+    component: page.ManagementCenter,
+    name: 'managementcenter'
+  },
+  //  管理中心-机票订单
+  {
+    path: '/managementairorder',
+    component: page.ManagementAirOrder,
+    name: 'managementairorder'
   }
 ]
 const router = new VueRouter({

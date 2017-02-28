@@ -9,6 +9,7 @@
   @import url('../css/common.css');
   @import url('../css/animate.css');
   @import url('../css/lib/iconfont/iconfont.css');
+  @import url('../css/font-awesome-4.7.0/css/font-awesome.min.css');
   .main_link {
     display: block;
     margin: .22rem auto 0px;

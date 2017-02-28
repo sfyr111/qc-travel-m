@@ -17,19 +17,25 @@
           <li><span>无结果</span></li>
         </ul>
         <ul v-if="key && cityQuery && cityQuery.length>0">
-          <li v-for="city in cityQuery" @click="selectCity(city)"><span>{{city.cityCn}}</span></li>
+          <li v-for="city in cityQuery" @click="selectCity(city)">
+            <span>{{city.cityCn || city[1]}}</span>
+          </li>
         </ul>
       </div>
 
       <div class="city_box" v-if="cityList && cityList.length>0">
         <dl class="clearfix city_hot" v-if="cityList[0].div === '热门城市'">
           <dt>{{cityList[0].div}}</dt>
-          <dd v-for="(city, index) in cityList[0].info" :class="{ 'active' : city.cityCn == activeCity.cityName }" @click="selectCity(city)">{{city.cityCn}}</dd>
+          <dd v-for="(city, index) in cityList[0].info" :class="{ 'active' : city.cityCn == activeCity.cityName || city.name === activeCity.cityName}" @click="selectCity(city)">
+            {{city.cityCn || city.name}}
+          </dd>
         </dl>
         <dl class="clearfix city" v-for="cityObj in cityList.slice(1, cityList.length)" v-if="cityObj.info && cityObj.info.length>0">
-          <dt name="A">{{cityObj.div}}</dt>
-          <dd v-for="(city, index) in cityObj.info" :class="{ 'active' : city.cityCn == activeCity.cityName }" @click="selectCity(city)">
-            <span>{{city.cityCn}}</span>
+          <dt name="A">
+            {{cityObj.div}}
+          </dt>
+          <dd v-for="(city, index) in cityObj.info" :class="{ 'active' : city.cityCn == activeCity.cityName || city.name === activeCity.cityName }" @click="selectCity(city)">
+            <span>{{city.cityCn || city.name}}</span>
           </dd>
         </dl>
       </div>
@@ -47,7 +53,7 @@
     width: 100%;
     min-height: 100%;
     background-color: #e6e6e6;
-    z-index: 9;
+    z-index: 1000;
   }
   .search_box {
     position: fixed;
@@ -92,12 +98,18 @@
   }
   .search_key_list {
     width: 100%;
-    min-height: 100%;
+    max-height: 100%;
     background: #fff;
     position: fixed;
     top: 1.3rem;
     z-index: 99;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+
   }
+   .search_key_list li:last-child{
+    padding-bottom: 1.5rem;
+   }
   .search_key_list li {
     padding-left: .28rem;
     height: .74rem;
@@ -178,6 +190,7 @@
   }
 </style>
 <script>
+  import { debounce } from 'vux'
 	export default {
 		props: {
       show: {
@@ -197,12 +210,14 @@
     data () {
 			return {
         showMask: false,
-        key: ''
+        key: '',
+        inputTimer: null   // 输入请求节流
       }
     },
     methods: {
       selectCity (city) {
       	this.$emit('getCity', city)
+        this.hideBox()
       },
       mask () {
       	this.showMask = !this.showMask
@@ -218,7 +233,14 @@
       	if (!this.key) {
       		return
         }
-      	this.$emit('search-key', this.key)
+
+        if (this.inputTimer) {
+          clearTimeout(this.inputTimer)
+        }
+
+        this.inputTimer = setTimeout(function () {
+          this.$emit('search-key', this.key)
+        }.bind(this), 500)
       }
     }
 	}
