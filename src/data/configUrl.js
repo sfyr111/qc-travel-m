@@ -35,6 +35,14 @@ const configUrl = {
   //  酒店热门城市
   hotelCity: {
     dataUrl: rootPath + 'security/hotel/get_hotel_city_info_of_mobile'
+  },
+  //  酒店位置区域
+  hotelArea: {
+    dataUrl: rootPath + 'security/hotel/get_hotel_area'
+  },
+  //  酒店位置区域
+  hotelList: {
+    dataUrl: rootPath + 'security/hotel/get_hotel_search_data'
   }
 }
 export default configUrl

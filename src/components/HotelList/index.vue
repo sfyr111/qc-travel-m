@@ -1,25 +1,25 @@
 <template>
 <div class="hotel_list">
 	<ul>
-		<li v-for="$index in 10" class="border-bottom border clearfix">
+		<li v-for="(item, index) in list" class="border-bottom border clearfix">
 			<div class="left fl">
-				<img src="http://developer.baidu.com/map/static/img/js_fn15.jpg" alt="酒店图片">
+				<img :src="item.imgUrl" alt="酒店图片">
 			</div>
 			<div class="middle fl bsizing">
 				<h2 class="overfl-oneline font28">
-					深圳格兰云天大酒店
+					{{ item.name }}
 				</h2>
 				<div class="comment overfl-oneline color_66">
-					<em class="red_icon">4.7分</em>
-					120条评论
+					<em class="red_icon">{{ item.praiseDegree }}分</em>
+					{{ item.commentNum }}条评论
 				</div>
 				<p class="overfl-oneline  color_66">
-					深南中路深南中路深南中路深南中路
+					{{ item.address }}
 				</p>
 			</div>
 			<div class="right fl ver-middle red_icon">
 				<em>¥</em>
-				<i class="font32">650</i>
+				<i class="font32">{{ item.intMinPrice }}</i>
 				<em class="color_66">起</em>
 			</div>
 		</li>
@@ -27,7 +27,16 @@
 </div>
 </template>
 
-<script></script>
+<script>
+export default {
+	props: {
+		list: {
+			type: Array,
+			default: []
+		}
+	}
+}
+</script>
 
 <style lang="less">
 .hotel_list li{

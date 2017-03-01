@@ -11,7 +11,7 @@
         <i class="icon iconfont icon-rili1"></i>
         <group class="air_search_str date_time">
           <calendar
-            v-model="dateStr"
+            v-model="dataStr"
             title=""
             disable-past
             :weeks-list="weeksList"
@@ -49,18 +49,19 @@
     border-bottom: 1px solid #dddddd;
   }
   .date {
-    display: inline-block;
+    display: flex;
     width: 4.1rem;
     height: 100%;
     background-color: #eeeeee;
   }
   .date .icon {
+    flex: 2;
+    text-align: right;
     color: #999999;
-    display: inline-block;
     vertical-align: .24rem;
   }
   .date_time {
-    display: inline-block;
+    flex: 3;
   }
   .date_time .weui-cells {
     background-color: #dddddd!important;
@@ -107,13 +108,15 @@
         } else {
           return false
         }
+      },
+      dataStr () {
+        return this.date
       }
     },
     data () {
       return {
         weeksList: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
         highlightWeekend: true,
-        dateStr: this.date
       }
     },
     methods: {
@@ -125,14 +128,12 @@
           return
         }
         if (!this.isDisabled) {
-          let time = dateFormat(new Date(+new Date(this.dateStr) - 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
-          this.dateStr = time
+          let time = dateFormat(new Date(+new Date(this.date) - 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
           this.selectDate(time)
         }
       },
       goNext () {
-        let time = dateFormat(new Date(+new Date(this.dateStr) + 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
-        this.dateStr = time
+        let time = dateFormat(new Date(+new Date(this.date) + 24 * 60 * 60 * 1000), 'YYYY-MM-DD')
         this.selectDate(time)
       }
     }

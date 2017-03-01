@@ -1,5 +1,5 @@
 <template>
-	<transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+	<transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
     <div>
       <div class="a_box">
         <div class="row r_city">
@@ -39,7 +39,6 @@
         </div>
         <!-- 开始查询 -->
         <M-D-Button :font="style" :str="str" @btn-click="btnClick"></M-D-Button>
-        <loading v-model="isLoading"></loading>
 
       </div>
       <!-- 加载城市组件 -->
@@ -100,7 +99,6 @@
 		},
 		computed: {
 		    ...mapGetters({
-			    isLoading: 'getLoading',
           cityAirList: 'getCityAirList',
           cityQueryList: 'getCityQuery'
 		    }),

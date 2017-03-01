@@ -39,7 +39,7 @@
 		top: 50%;
 		left: 50%;
 		margin-left: -3.30rem;
-		margin-top: -2.20rem;
+		margin-top: -3.50rem;
 		width: 6.00rem;
 		padding: 0 .32rem .40rem;
 		z-index: 9999;
@@ -61,6 +61,8 @@
     	font-size: .4rem;
 	}
 	.change_cont {
+		max-height: 4.70rem;
+		overflow: auto;
 		padding-top: .20rem;
 		padding-right: .30rem;
 		padding-left: .30rem;

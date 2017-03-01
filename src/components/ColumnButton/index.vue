@@ -17,6 +17,7 @@
 		display: block;
 		height: .66rem;
 		line-height: .66rem;
+		overflow: hidden;
 		text-align: center;
 		font-size: .26rem;
 		cursor: pointer;

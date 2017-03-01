@@ -1,5 +1,5 @@
 <template>
-	<div class="hotel_list_container">
+	<div class="hotel_list_container" v-scroll-bottom="{throttle: 400, distance: 100, loadMore: loadMore}">
 		<div class="hotel_list_search_fixed">
 			<!-- 城市，酒店名 -->
 			<hotel-list-head
@@ -9,15 +9,17 @@
 		
 			<!-- 筛选按钮 -->
 			<column-button class="bg_f6 hotel_search_button font26 border-b border">
-				<div class="flex_btn" @click="columnBtnClick">
+				<div class="flex_btn" @click="columnBtnClick" :class="{'active': isSelectStartDate}">
 					入{{ showStartDate }}
 					
-					<i class="icon iconfont">&#xe615;</i>
+					<i class="icon iconfont" v-if="!isSelectStartDate">&#xe615;</i>
+					<i class="icon iconfont" v-else>&#xe621;</i>
 				</div>
-				<div class="flex_btn">
+				<div class="flex_btn" :class="{'active': isSelectEndDate}">
 					离{{ showEndDate }}
 			    
-					<i class="icon iconfont">&#xe615;</i>
+					<i class="icon iconfont" v-if="!isSelectEndDate">&#xe615;</i>
+					<i class="icon iconfont" v-else>&#xe621;</i>
 				</div>
 				<div class="flex_btn" @click="columnBtnClick(2)" :class="{'active': isSelectStarPrice}">
 					星级价格
@@ -41,10 +43,14 @@
 		></hotel-star-price>
 
 		<!-- 位置，区域 -->
-		<hotel-search-address v-show="isSelectAddress"></hotel-search-address>
-
-		<!-- 酒店列表 -->
-		<hotel-list></hotel-list>
+		<hotel-search-address
+		:show="isSelectAddress"
+		:city-id="cityId"
+		:business="getHotelBusinessZone"
+		:region="getHotelAdministrativeRegion"
+		@cancel-select-address="cancelSelectAddress"
+		@confirm-select-address="confirmSelectAddress"
+		></hotel-search-address>
 
 		<!-- 热门城市等 -->
 		<city-air
@@ -58,34 +64,46 @@
 
 		<!-- 日历组件 -->
 		<!-- 入住日期 -->
-		<group class="color_33 calendar_startdate">
-      <calendar
-      v-model="checkInDate"
-      title=""
-      disable-past
-      :weeks-list="weeksList"
-      :replace-text-list="todayStr"
-      @on-change="selectStartDate"
-      @click.native="startSelectStartDate"
-      ></calendar>
-    </group>
+		<div class="calendar_startdate" @click="startSelectStartDate($event)">
+			<group class="color_33">
+	      <calendar
+	      v-model="checkInDate"
+	      title=""
+	      disable-past
+	      :weeks-list="weeksList"
+	      :replace-text-list="todayStr"
+	      @on-change="selectStartDate"
+	      @click.native="startSelectStartDate"
+	      @on-cancel="cancelCalendarStartDate"
+	      ></calendar>
+	    </group>
+	  </div>
 
     <!-- 离店日期 -->
-		<group class="color_33 calendar_enddate">
-      <calendar
-      v-model="checkOutDate"
-      title=""
-      disable-past
-      :weeks-list="weeksList"
-      :replace-text-list="todayStr"
-      :highlight-weekend="highlightWeekend"
-      :start-date="endDate2"
-      @on-change="selectEndDate"
-      @click.native="startSelectEndDate"
-      ></calendar>
-    </group>
+    <div class="calendar_enddate" @click="startSelectEndDate($event)">
+			<group class="color_33">
+	      <calendar
+	      v-model="checkOutDate"
+	      title=""
+	      disable-past
+	      :weeks-list="weeksList"
+	      :replace-text-list="todayStr"
+	      :highlight-weekend="highlightWeekend"
+	      :start-date="endDate2"
+	      @on-change="selectEndDate"
+	      @on-cancel="cancelCalendarEndDate"
+	      ></calendar>
+	    </group>
+		</div>
 
+		<!-- 酒店列表 -->
+		<hotel-list :list="getHotelList"></hotel-list>
     
+    <!-- loading more -->
+    <loading-more v-if="getHotelList.length && !isLoadAll"></loading-more>
+
+    <!-- 加载完全部 -->
+    <no-data :str="noData" :style-obj="styleObj" v-if="isLoadAll"></no-data>
 	</div>
 </template>
 
@@ -100,26 +118,27 @@ import {
 	ColumnButton,
 	HotelStarPrice,
 	HotelSearchAddress,
-	CityAir
+	CityAir,
+	LoadingMore,
+	NoData
 } from '../components'
 
 export default {
 	data () {
 		return {
-			hotelListData: {												//	酒店列表查询参数
-				cityId:'824297',											//	城市ID
-				checkInDate: '',							 //	住店日期
-				checkOutDate: '',							//	离店日期
-				minPrice: '',									//	最小 价格
-				maxPrice: '',									//	最大 价格
-				star: '',											//	星级
-				cbdId: '',										//	商业区id
-				disId: '',										//	行政区id
-				page: 1,
-				pageSize: 10,
-				hotelSortType: 'sort_hot_level_desc',   //	列表排序默认
-				name: ''											//	酒店名称
-			},
+			cityId:'824297',											//	城市ID
+			checkInDate: '',							 //	住店日期
+			checkOutDate: '',							//	离店日期
+			minPrice: '',									//	最小 价格
+			maxPrice: '',									//	最大 价格
+			star: '',											//	星级
+			cbdId: '',										//	商业区id
+			disId: '',										//	行政区id
+			page: 1,
+			pageSize: 10,
+			hotelSortType: 'sort_hot_level_desc',   //	列表排序默认
+			name: '',											//	酒店名称
+
 			cityName: '北京',								//	选择城市
 			isShowHotelCityBox: false,				//	是否显示选择城市
 			activeCity: {											//	默认选中城市
@@ -128,6 +147,8 @@ export default {
 			isInitCity: true,									//	是否是初始化城市
 			hotelCityUrl: configUrl.hotelCity.dataUrl,   //	酒店城市查询URL	 	
 			hotelCityInputUrl: configUrl.hotelCityInput.dataUrl,   //	酒店模糊查询URL
+			hotelAddressUrl: configUrl.hotelArea.dataUrl,		//	位置区域URL
+			hotelListUrl: configUrl.hotelList.dataUrl,					//	酒店列表查询URL
 			endDate2: '',												//	结束日期开始选择
 			weeksList: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
 			todayStr: {
@@ -138,7 +159,22 @@ export default {
 			showStartDate: '',								//	显示开始日期
 			showEndDate: '',									//	显示结束日期
 			isSelectStarPrice: false,					//	星级价格显示变量
-			isSelectAddress: false,						//	位置区域显示变量			
+			isSelectAddress: false,						//	位置区域显示变量
+			isInitBusinessData: true,							//	是否可以获取商业区数据
+			isCanGetBusinessData: true,           //	商业区域数据节流
+			isInitRegionData: true,							//	是否可以获取行政区数据
+			isCanGetRegionData: true,           //	行政区域数据节流
+			isSelectStartDate: false,					//	选择住店日期变量		
+			isSelectEndDate: false,					//	选择离店日期变量
+			isCanGetHotelList: true,				//	酒店列表数据节流
+			isLoadAll: false,      					//	是否加载完全部	
+			noData: '没有更多了哦～',
+			styleObj: {
+				'width': '100%',
+				'height': 'auto',
+				'text-align': 'center',
+				'padding': '.2rem 0'
+			}
 		}
 	},
 
@@ -153,10 +189,13 @@ export default {
 		Loading,
 		Group,
 		Calendar,
-		Cell
+		Cell,
+		LoadingMore,
+		NoData
 	},
 
 	created () {
+		document.body.style.background = '#fff'
 		//	初始化城市 城市id
 		let query = this.$route.query
 		this.cityId = query.cityId
@@ -169,15 +208,19 @@ export default {
 		//	设置显示日期
 		this.showStartDate = this.checkInDate.substring(5)
 		this.showEndDate = this.checkOutDate.substring(5)
+
+		//	初始化酒店列表
+		this.checkHotelList(true)
 	},
 
 	methods: {
 		//	vuex actions
-		...mapActions([ 'hotelCityInput', 'hotelCity' ]),
+		...mapActions([ 'hotelCityInput', 'hotelCity', 'hotelArea', 'setHotelList' ]),
 
 		//	显示选择地址弹窗
 		showSelectCity () {
 			this.isShowHotelCityBox = true
+			this.isSelectAddress = false
 
 			if (!this.isInitCity) {
 				return
@@ -218,26 +261,45 @@ export default {
 
 		//	选择城市
 		selectCity (city) {
-			this.cityName = city.name || city[1]
-			this.cityId = city.id || city[0]
+			let cityId = city.id || city[0]
+			cityId = cityId.toString()
 			this.isShowHotelCityBox = false
+
+			//	两次选择同一个城市退出
+			if (this.cityId === cityId) {
+				return
+			}
+
+			this.cityName = city.name || city[1]
+			this.cityId = cityId
 			this.activeCity.cityName = this.cityName 
+
+			//	重置可以重新获取位置区域数据
+			this.isInitBusinessData = true
+			this.isInitRegionData = true
 		},
 
-		//	住店日期弹出层
-		startSelectStartDate () {
-			console.log('住店日期开始选择')
+		//	住店日期弹出层 (开始选择住店日期)
+		startSelectStartDate (e) {
+			//console.log('住店日期开始选择')
 			this.isSelectAddress = false
 			this.isSelectStarPrice = false
+
+			//	阻止冒泡
+			if (e.target === this.$el.querySelector('.calendar_startdate') || e.target === this.$el.querySelector('.calendar_startdate .weui-cell__ft') || e.target === this.$el.querySelector('.calendar_startdate .weui-cell')) {
+				this.isSelectStartDate = true
+			}
 		},
 
 		//选择住店日期
 		selectStartDate: function (val) {
 			//console.log(val)
+			this.isSelectStartDate = false
 			this.checkInDate = val
 			let startDate = +new Date(val)
 			let endDate = +new Date(this.checkOutDate)
 			let endDate2 = dateFormat(new Date(startDate + this.dayTime), 'YYYY-MM-DD')
+			
 			
 			this.endDate2 = endDate2
 			//	住店日期大于离店日期
@@ -252,13 +314,23 @@ export default {
 
 		},
 
-		//	离店日期弹出层
-		startSelectEndDate () {
-			this.isSelectAddress = false
-			this.isSelectStarPrice = false
+		//	取消选择住店日期
+		cancelCalendarStartDate () {
+			this.isSelectStartDate = false
 		},
 
-		//	离店日期
+		//	离店日期弹出层 (开始选择离店日期)
+		startSelectEndDate (e) {
+			this.isSelectAddress = false
+			this.isSelectStarPrice = false
+			
+			//	阻止冒泡
+			if (e.target === this.$el.querySelector('.calendar_enddate') || e.target === this.$el.querySelector('.calendar_enddate .weui-cell__ft') || e.target === this.$el.querySelector('.calendar_enddate .weui-cell')) {
+				this.isSelectEndDate = true
+			}
+		},
+
+		//	选择离店日期
 		selectEndDate (val) {
 			//console.log('离店日期：' + val)
 			if (+new Date(val) < +new Date(this.endDate2)) {
@@ -268,6 +340,12 @@ export default {
 			this.checkOutDate = val
 			//	设置离店显示日期
 			this.showEndDate = val.substring(5)
+			this.isSelectEndDate = false
+		},
+
+		//	取消选择离店日期
+		cancelCalendarEndDate () {
+			this.isSelectEndDate = false
 		},
 
 
@@ -282,6 +360,12 @@ export default {
 				case 3:
 					this.isSelectAddress = !this.isSelectAddress
 					this.isSelectStarPrice = false
+
+					//	获取商业区
+					this.getBusinessAddressData()
+
+					//	获取行政区
+					this.getRegionAddressData()
 					break;
 
 				default:
@@ -301,11 +385,143 @@ export default {
 			this.minPrice = msg.price.minPrice
 			this.maxPrice = msg.price.maxPrice
 			this.star = msg.star.star
+		},
+
+		//	取消选择位置区域
+		cancelSelectAddress () {
+			this.isSelectAddress = false
+		},
+
+		//	获取商业区域数据
+		getBusinessAddressData () {
+			if (!this.isInitBusinessData || !this.isCanGetBusinessData) {
+				return
+			}
+			
+			this.isCanGetBusinessData = false
+
+			let self = this
+			let opt = {
+				type: 'get',
+				url: this.hotelAddressUrl,
+				errMsg: '获取位置区域失败',
+				data: {
+					cityId: this.cityId,
+					areaType: 2
+				}
+			}	
+
+			this.hotelArea(opt).then(function () {
+				self.isInitBusinessData = false
+				self.isCanGetBusinessData = true
+			})
+			.catch(function (err) {
+				self.isInitBusinessData = true
+				self.isCanGetBusinessData = true
+			})
+		},
+
+		//	获取行政区域数据
+		getRegionAddressData () {
+			if (!this.isInitRegionData || !this.isCanGetRegionData) {
+				return
+			}
+			
+			this.isCanGetRegionData = false
+
+			let self = this
+			let opt = {
+				type: 'get',
+				url: this.hotelAddressUrl,
+				errMsg: '获取位置区域失败',
+				data: {
+					cityId: this.cityId,
+					areaType: 1
+				}
+			}	
+
+			this.hotelArea(opt).then(function () {
+				self.isInitRegionData = false
+				self.isCanGetRegionData = true
+			})
+			.catch(function (err) {
+				self.isInitRegionData = true
+				self.isCanGetRegionData = true
+			})
+		},
+
+
+		//	位置区域确定选择
+		confirmSelectAddress (msg) {
+			//console.log(msg)
+			this.cbdId = msg.cbdId.id
+			this.disId = msg.disId.id
+		},
+
+		//	查询酒店列表
+		loadMore () {
+			this.checkHotelList(false)
+		},
+
+		checkHotelList (isInit) {
+			if (!this.isCanGetHotelList || this.isLoadAll) {
+				return
+			}
+
+			//	初始化重置页数
+			if (isInit) {
+				this.page = 1
+				this.isLoadAll = false
+			}
+
+			let data = {
+				cityId: this.cityId,
+				checkInDate: this.checkInDate,
+				checkOutDate: this.checkOutDate,
+				minPrice: this.minPrice,
+				maxPrice: this.maxPrice,
+				star: this.star,
+				cbdId: this.cbdId,
+				disId: this.disId,
+				page: this.page,
+				pageSize: this.pageSize,
+				hotelSortType: this.hotelSortType,
+				name: this.name
+			}
+
+			let self = this
+			let opt = {
+				type: 'get',
+				url: this.hotelListUrl,
+				errMsg: '获取酒店列表失败，请稍后再试',
+				data: data,
+				isInit: isInit
+			}
+
+			this.setHotelList(opt).then(function (resp) {
+				self.isCanGetHotelList = true
+				//	如果全部加载完
+				if (resp.searchedHotelInfos.length < self.pageSize) {
+					self.isLoadAll = true
+					return
+				}
+
+				self.page ++
+			})
+			.catch(function (err) {
+				self.isCanGetHotelList = true
+			})
 		}
 	},
 
 	computed: {
-		...mapGetters(['getHotelCity', 'getHotelCityInput'])
+		...mapGetters([
+			'getHotelCity',
+			'getHotelCityInput',
+			'getHotelBusinessZone',
+			'getHotelAdministrativeRegion',
+			'getHotelList'
+		])
 	}
 }
 </script>
@@ -353,21 +569,19 @@ export default {
 	.calendar_startdate, .calendar_enddate{
 		position: fixed;
 		width: 25%;
-		height: .66rem;
+		
 		top: 1.18rem;
 		left: 0;
-		overflow: hidden;
 		z-index: 120;
 		.weui-cell{
 			opacity: 0;
+			height: .66rem;
+		}
+		.weui-cells{
+			overflow: auto;
 		}
 	}
 	.calendar_enddate{
 		left: 25%;
-	}
-	.overflow{
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
 	}
 </style>

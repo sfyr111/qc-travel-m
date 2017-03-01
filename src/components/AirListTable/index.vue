@@ -1,5 +1,5 @@
 <template>
-  <div class="air_table_box" v-scroll-bottom="{throttle: 400, distance: 100, loadMore: loadMore}">
+  <div class="air_table_box" v-scroll-bottom="{throttle: 400, distance: 10, loadMore: loadMore}">
     <div class="air_main" v-for="(air, parentIndex) in tripList">
       <table class="air_main_table" @click="showThisPannel(parentIndex)">
         <tr class="air_main_table_up">

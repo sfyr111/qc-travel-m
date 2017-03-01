@@ -1,35 +1,41 @@
 <template>
-  <div>
+  <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <div>
+      <!-- 顶部日期过滤数据 -->
+      <air-list-head
+      :date="dateStr"
+      @select-date="setDate"
+      :city-dep="cityDep"
+      :city-arr="cityArr"></air-list-head>
+      
+      <!-- 机票列表展示 -->
+      <air-list-table
+        @order-single="orderSingle"
+        @order-go="orderGo"
+        @order-return="orderReturn"
+        @load-more="loadMore"
+        @show-tip="showTipData"
+        :trip-list="airList"
+        :is-single="isSingle"
+        :has-check="hasCheck"></air-list-table>
 
-    <air-list-head
-    :date="dateStr"
-    @select-date="setDate"
-    :city-dep="cityDep"
-    :city-arr="cityArr"></air-list-head>
+      <!-- 底部导航 -->
+      <air-list-foot @sort-type="sort" :table-index="tableIndex"></air-list-foot>
 
-    <air-list-table
-      @order-single="orderSingle"
-      @order-go="orderGo"
-      @order-return="orderReturn"
-      @load-more="loadMore"
-      @show-tip="showTipData"
-      :trip-list="airList"
-      :is-single="isSingle"
-      :has-check="hasCheck"></air-list-table>
-
-    <air-list-foot @sort-type="sort" :table-index="tableIndex"></air-list-foot>
-    
-    <tip-change 
-      :show="showTip" 
-      :ticket-turn="ticketTurn"
-      :ticket-change="ticketChange"
-      :ticket-back="ticketBack"
-      @hide-tip="hideTip"></tip-change>
-  </div>
+      <!-- nodata -->
+      <no-data :str="datamsg" v-if="showNoData"></no-data>
+      <tip-change 
+        :show="showTip" 
+        :ticket-turn="ticketTurn"
+        :ticket-change="ticketChange"
+        :ticket-back="ticketBack"
+        @hide-tip="hideTip"></tip-change>
+    </div>
+  </transition>
 </template>
 <script>
   import http from '../api/http'
-  import { AirListHead, AirListTable, AirListFoot, TipChange } from '../components'
+  import { AirListHead, AirListTable, AirListFoot, TipChange, NoData } from '../components'
   import configUrl from '../data/configUrl'
   import { mapGetters } from 'vuex'
   export default {
@@ -37,12 +43,14 @@
       ...mapGetters({
         airList: 'getAirList'
       }),
+      // 是否为单程
       isSingle () {
       	if (this.tripType == 'RT') {
       		return false
         }
         return true
       },
+      // 给日期组件传递时间
       dateStr () {
         if (this.tripType == 'OW') {
           return this.startDate
@@ -51,15 +59,26 @@
           return this.startDate
         }
         if (this.tripType == 'RT' && this.hasCheck) {
-          return this.endDate
+          return this.startDate
         }
+      },
+      // 是否显示nodata
+      showNoData () {
+        if (this.isQuery) {
+          return false
+        }
+        if (this.airList.length==0) {
+          return true
+        }
+        return false
       }
     },
   	components: {
       AirListHead,
       AirListTable,
       AirListFoot,
-      TipChange
+      TipChange,
+      NoData
     },
     created: function() {
       this.initQuery=true
@@ -78,16 +97,22 @@
         sortType: '1',   // 排序
         pageNo: 1,
         pageSize: 10,
-        tableIndex: 0,
-        showTip: false,
+        tableIndex: 0,      // 查询导航组件index
+        showTip: false,     // 是否展示退改签组件
         ticketTurn: '',
         ticketChange: '',
-        ticketBack: '',
-        initQuery: true,
+        ticketBack: '',      
+        initQuery: true,    // 初始化查询，确定是否在返回数组中使用push
+        datamsg: '',        // nodata组件查询展示信息
+        isQuery: false      // 查询节流
       }
     },
     methods: {
+      // 接收日期组件change事件，处理数据
       setDate (val) {
+        if (this.isQuery) {
+          return
+        }
         if (this.isSingle) {
         	if (this.startDate === val) {
         		return
@@ -101,31 +126,45 @@
           this.startDate = val
         }
         if (!this.isSingle && this.hasCheck) {
-        	if (this.endDate === val) {
+        	if (this.startDate === val) {
         		return
           }
-          this.endDate = val
+          this.startDate = val
         }
         this.tableIndex = 0
         this.initQuery=true
         // 更改时间重新筛选数据
         this.searchTrip()
       },
+      // 滚动到底部处理
       loadMore () {
+        if (this.isQuery) {
+          return
+        }
       	this.pageNo=parseInt(this.pageNo)+1
         this.tableIndex = 0
         this.initQuery=false
         // 滚动到底部加载更多
         this.searchTrip()
       },
+      // 排序
       sort (num) {
+        if (this.isQuery) {
+          return
+        }
       	this.sortType = num
         this.tableIndex = num
         this.initQuery=true
         // 滚动到底部加载更多
         this.searchTrip()
       },
+      // 查询方法
       searchTrip () {
+        let _this = this
+        if (this.isQuery) {
+          return
+        }
+        this.isQuery = true
       	let data = {
           sourceId: this.sourceId || "",
           arrCity: this.cityArr,
@@ -143,6 +182,10 @@
           initQuery: this.initQuery
         }
         this.$store.dispatch('airList', opt).then(function (resp) {
+          _this.isQuery=false
+        }).catch(function(resp){
+          _this.isQuery=false
+          _this.datamsg=resp.resultMessage
         })
       },
       // 单程
@@ -153,15 +196,18 @@
         sessionStorage.setItem('model', '['+JSON.stringify(model)+']')
 
         this.sourceId = this.airList[Pindex].bingoClassInfos[index].sourceId
-//        this.$router.go({
-//          name: 'airOrder',
-//          query: {
-//            sourceId: this.sourceId
-//          }
-//        })
+        this.$router.push({
+          name: 'airOrder',
+          query: {
+            sourceId: this.sourceId
+          }
+        })
       },
       // 选去程
       orderGo (Pindex, index) {
+        if (this.isQuery) {
+          return
+        }
         this.hasCheck = true
         sessionStorage.clear()
 
@@ -170,14 +216,14 @@
 
         this.sourceId = this.airList[Pindex].bingoClassInfos[index].sourceId
 
+        // 城市替换
         let temp = this.cityDep
         this.cityDep = this.cityArr
         this.cityArr = temp
+        // 重置排序
         this.tableIndex = 0
-        console.log('rechoose')
-        this.initQuery=true
-        // 重新搜索
-        this.searchTrip()
+        // 更改出发时间
+        this.setDate(this.endDate)
       },
       // 选返程
       orderReturn (Pindex, index) {
@@ -186,13 +232,14 @@
         trip.push(this.setModel(Pindex, index))
 
         sessionStorage.setItem('model', JSON.stringify(trip))
-//        this.$router.go({
-//          name: 'airOrder',
-//          query: {
-//            sourceId: self.sourceId
-//          }
-//        })
+        this.$router.push({
+          name: 'airOrder',
+          query: {
+            sourceId: this.sourceId
+          }
+        })
       },
+      // 查询退改签信息
       showTipData (Pindex, index) {
         let _this = this
         let data = {
@@ -224,6 +271,7 @@
           })
         });
       },
+      // 隐藏退改签
       hideTip () {
         this.showTip = false
       },

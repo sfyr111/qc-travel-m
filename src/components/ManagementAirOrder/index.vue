@@ -35,6 +35,7 @@
         width: 100%;
         border-radius: .1rem;
         font-size: .3rem;
+        margin-bottom: .2rem;
     }
     .air-order-information .air-company{
         padding:.25rem .3rem;

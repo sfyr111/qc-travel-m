@@ -35,6 +35,12 @@ let routes = [
     component: page.AirList,
     name: 'airList'
   },
+  //  机票订单
+  {
+    path: '/airOrder',
+    component: page.AirOrder,
+    name: 'airOrder'
+  },
   //  酒店列表
   {
     path: '/hotellist',
@@ -52,6 +58,24 @@ let routes = [
     path: '/managementairorder',
     component: page.ManagementAirOrder,
     name: 'managementairorder'
+  },
+  //  管理中心-机票详情
+  {
+    path: '/managementairdetail',
+    component: page.ManagementAirDetail,
+    name: 'managementairdetail'
+  },
+  //  管理中心-酒店订单
+  {
+    path: '/managementhotelorder',
+    component: page.ManagementHotelOrder,
+    name: 'managementhotelorder'
+  },
+  //  管理中心-酒店详情
+  {
+    path: '/managementhoteldetail',
+    component: page.ManagementHotelDetail,
+    name: 'managementhoteldetail'
   }
 ]
 const router = new VueRouter({
