@@ -13,7 +13,7 @@
 		display: -webkit-flex;
 		display:flex;
 	}
-	.filter-footer-button div.flex_btn{
+	.filter-footer-button .flex_btn{
 		display: block;
 		height: .66rem;
 		line-height: .66rem;
@@ -26,24 +26,24 @@
 		-webkit-flex:1;
 		flex:1;
 	}
-	.filter-footer-button div.flex_btn{
+	.filter-footer-button .flex_btn{
 		position: relative;
 		border: none;
 		padding: 0;
 		z-index: 10;
 	}
-	.filter-footer-button div.flex_btn:before{
+	.filter-footer-button .flex_btn:before{
 		display: block;
 		content: "";
 		width: 1px;
 		height: .3rem;
-		background: #a0a0a0;
+		background: #999;
 		position: absolute;
 		top: 50%;
 		right: 0;
 		transform: translate3d(0, -50%, 0);
 	}
-	.filter-footer-button div.flex_btn:last-child:before{
+	.filter-footer-button .flex_btn:last-child:before{
 		display: none;
 	}
 </style>

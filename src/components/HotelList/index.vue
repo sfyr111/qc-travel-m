@@ -1,7 +1,7 @@
 <template>
 <div class="hotel_list">
 	<ul>
-		<li v-for="(item, index) in list" class="border-bottom border clearfix">
+		<li v-for="(item, index) in list" class="border-bottom border clearfix" @click="toDetail">
 			<div class="left fl">
 				<img :src="item.imgUrl" alt="酒店图片">
 			</div>
@@ -33,6 +33,15 @@ export default {
 		list: {
 			type: Array,
 			default: []
+		}
+	},
+
+	methods: {
+		//	跳转酒店详情
+		toDetail () {
+			this.$router.push({
+				name: 'hoteldetail'
+			})
 		}
 	}
 }

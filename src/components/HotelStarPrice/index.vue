@@ -64,7 +64,7 @@ export default {
 				},
 				{
 					minPrice: 1001,
-					maxPrice: ''
+					maxPrice: 99999
 				}
 			],									//	价格
 			priceIndex: 0,				//	价格选择索引

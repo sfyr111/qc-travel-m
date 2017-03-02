@@ -6,3 +6,6 @@ export const AIRLIST = 'AIRLIST'
 export const HOTELCITYINPUT = 'HOTELCITYINPUT'
 export const HOTELCITY = 'HOTELCITY'
 export const HOTELAREA = 'HOTELAREA'
+export const PASSLIST = 'PASSLIST'
+export const ADDRESSLIST = 'ADDRESSLIST'
+

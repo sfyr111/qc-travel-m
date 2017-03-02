@@ -1,6 +1,8 @@
 import Loading from './Loading'
 import showTips from './ShowTips'
 import MDButton from './MDButton'
+import QSwitch from './QSwitch'
+import QCheckBox from './QCheckBox'
 import NoData from './NoData'
 import CityAir from './CityAir'
 import ManagementAirOrder from './ManagementAirOrder'
@@ -15,21 +17,23 @@ import AirListFoot from './AirListFoot'
 import TipChange from './TipChange'
 import AirOrderTrip from './AirOrderTrip'
 import AirOrderPassenager from './AirOrderPassenager'
-import AirOrderContact from './AirOrderContact'
-import AirOrderInvoice from './AirOrderInvoice'
-import AirOrderSubmit from './AirOrderSubmit'
 import LoadingMore from './LoadingMore'
 import ManagementDetailState from './ManagementDetailState'
 import ManagementDetailChange from './ManagementDetailChange'
+import HotelDetailBanner from './HotelDetailBanner'
+import HotelDetailItem from './HotelDetailItem'
+import HotelRoomTypePrice from './HotelRoomTypePrice'
 
 
 const components = {
 	Loading,
 	showTips,
 	MDButton,
+	QSwitch,
+	QCheckBox,
 	NoData,
 	CityAir,
-  ManagementAirOrder,
+  	ManagementAirOrder,
 	HotelList,
 	HotelListHead,
 	ColumnButton,
@@ -41,12 +45,12 @@ const components = {
 	TipChange,
 	AirOrderTrip,
 	AirOrderPassenager,
-	AirOrderContact,
-	AirOrderInvoice,
-	AirOrderSubmit,
 	LoadingMore,
 	ManagementDetailState,
-	ManagementDetailChange
+	ManagementDetailChange,
+	HotelDetailBanner,
+	HotelDetailItem,
+	HotelRoomTypePrice,
 }
 
 module.exports = components

@@ -23,10 +23,30 @@ const configUrl = {
     pattern: /cityAir.json/,
     dataUrl: rootPath + 'security/aircraft/go_aircraft_list_page'
   },
-  //  杭奔经停
+  //  航班经停
   airChange: {
     pattern: /cityAir.json/,
     dataUrl: rootPath + 'security/aircraft/flight_provision_city'
+  },
+  //  乘客查询
+  passQuery: {
+    pattern: /cityAir.json/,
+    dataUrl: rootPath + 'security/passenger/get_passenger_info'
+  },
+  //  乘客保存
+  passSave: {
+    pattern: /cityAir.json/,
+    dataUrl: rootPath + 'security/passenger/update_passenger_info'
+  },
+  //  地址列表
+  addressList: {
+    //pattern: /hotelSearchList.json/,
+    dataUrl: rootPath + 'security/invoice/query_adddress_list'
+  },
+  // 新增地址
+  addressSave: {
+    //pattern: /hotelSearchList.json/,
+    dataUrl: rootPath + 'security/invoice/add_or_edit_adddress'
   },
   //酒店城市模糊查询
   hotelCityInput: {

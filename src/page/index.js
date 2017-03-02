@@ -10,6 +10,11 @@ import AirOrder from './AirOrder.vue'
 import ManagementAirDetail from './ManagementAirDetail.vue'
 import ManagementHotelOrder from './ManagementHotelOrder.vue'
 import ManagementHotelDetail from './ManagementHotelDetail.vue'
+import PassenagerList from './Passenager/PassenagerList.vue'
+import PassenagerModel from './Passenager/PassenagerModel.vue'
+import Address from './Address/address.vue'
+import HotelDetail from './HotelDetail.vue'
+import HotelComment from './HotelComment.vue'
 
 export default {
 	List,
@@ -17,12 +22,16 @@ export default {
   	Main,
   	AirSearch,
   	HotelList,
+    PassenagerList,
+    PassenagerModel,
+    Address,
     ManagementCenter,
     ManagementAirOrder,
     AirList,
     AirOrder,
     ManagementAirDetail,
     ManagementHotelOrder,
-    ManagementHotelDetail
-
+    ManagementHotelDetail,
+    HotelDetail,
+    HotelComment
 }

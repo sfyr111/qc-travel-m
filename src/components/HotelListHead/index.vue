@@ -1,7 +1,7 @@
 <template>
 	<div class="hotel_list_search clearfix bg_cc">
 		<div class="left bsizing ver-middle fl" @click="showSelectCity">
-			<em class="font28">{{ cityName }}</em>
+			<em class="font28">{{ cityName.substring(0, 2) }}</em>
 			<i class="icon iconfont">&#xe615;</i>
 		</div>
 		<div class="right bsizing fl">

@@ -103,14 +103,17 @@
     <loading-more v-if="getHotelList.length && !isLoadAll"></loading-more>
 
     <!-- 加载完全部 -->
-    <no-data :str="noData" :style-obj="styleObj" v-if="isLoadAll"></no-data>
+    <no-data :str="loadAllData" :style-obj="styleObj" v-if="isLoadAll && getHotelList.length > 10"></no-data>
+
+    <!-- 没有数据 -->
+    <no-data :str="loadNoData" v-if="isLoadAll && !getHotelList.length"></no-data>
 	</div>
 </template>
 
 <script>
 import { Loading, Group, Calendar, Cell, dateFormat   } from 'vux'
 import configUrl from '../data/configUrl'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations  } from 'vuex'
 import { 
 	HotelList,
 	HotelListHead,
@@ -168,13 +171,18 @@ export default {
 			isSelectEndDate: false,					//	选择离店日期变量
 			isCanGetHotelList: true,				//	酒店列表数据节流
 			isLoadAll: false,      					//	是否加载完全部	
-			noData: '没有更多了哦～',
+			loadAllData: '没有更多了哦~',
 			styleObj: {
 				'width': '100%',
 				'height': 'auto',
+				'line-height': '1.5',
 				'text-align': 'center',
-				'padding': '.2rem 0'
-			}
+				'padding': '.2rem 0',
+				'font-size': '.28rem'
+			},
+			isInitCalendar1: true,					//	是否初始化日历
+			isInitCalendar2: true,					//	是否初始化日历
+			loadNoData: '暂未搜索到相关酒店'
 		}
 	},
 
@@ -216,6 +224,11 @@ export default {
 	methods: {
 		//	vuex actions
 		...mapActions([ 'hotelCityInput', 'hotelCity', 'hotelArea', 'setHotelList' ]),
+
+		//	vuex mutations
+		...mapMutations([
+      'HOTELLIST' 
+    ]),
 
 		//	显示选择地址弹窗
 		showSelectCity () {
@@ -277,6 +290,13 @@ export default {
 			//	重置可以重新获取位置区域数据
 			this.isInitBusinessData = true
 			this.isInitRegionData = true
+
+			//	重置商业区行政区id
+			this.cbdId = ''
+			this.disId = ''
+
+			//	重新刷新酒店列表
+			this.checkHotelList(true)
 		},
 
 		//	住店日期弹出层 (开始选择住店日期)
@@ -311,7 +331,13 @@ export default {
 
 			//	设置显示日期
 			this.showStartDate = val.substring(5)
+			
 
+			if (!this.isInitCalendar1) {
+				//	重新刷新酒店列表
+				this.checkHotelList(true)
+			}
+			this.isInitCalendar1 = false
 		},
 
 		//	取消选择住店日期
@@ -341,6 +367,14 @@ export default {
 			//	设置离店显示日期
 			this.showEndDate = val.substring(5)
 			this.isSelectEndDate = false
+
+			//	重新刷新酒店列表
+			if (!this.isInitCalendar2) {
+				console.log(44)
+				this.checkHotelList(true)
+			}
+			this.isInitCalendar2 = false
+			
 		},
 
 		//	取消选择离店日期
@@ -385,6 +419,10 @@ export default {
 			this.minPrice = msg.price.minPrice
 			this.maxPrice = msg.price.maxPrice
 			this.star = msg.star.star
+
+			//	重新刷新酒店列表
+			this.checkHotelList(true)
+			console.log(msg)
 		},
 
 		//	取消选择位置区域
@@ -456,6 +494,9 @@ export default {
 			//console.log(msg)
 			this.cbdId = msg.cbdId.id
 			this.disId = msg.disId.id
+
+			//	重新刷新酒店列表
+			this.checkHotelList(true)
 		},
 
 		//	查询酒店列表
@@ -464,14 +505,23 @@ export default {
 		},
 
 		checkHotelList (isInit) {
-			if (!this.isCanGetHotelList || this.isLoadAll) {
-				return
-			}
-
 			//	初始化重置页数
 			if (isInit) {
 				this.page = 1
 				this.isLoadAll = false
+				let obj = {
+					isInit: isInit,
+					result: {
+						searchedHotelInfos: []
+					}
+				}
+
+				this.HOTELLIST(obj)
+			}
+
+
+			if (!this.isCanGetHotelList || this.isLoadAll) {
+				return
 			}
 
 			let data = {
@@ -507,6 +557,8 @@ export default {
 				}
 
 				self.page ++
+			}, function (res) {
+				alert(res)
 			})
 			.catch(function (err) {
 				self.isCanGetHotelList = true

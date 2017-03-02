@@ -324,8 +324,6 @@ export default {
   		this.showCity = this.hotelCityName
   		this.isShowHotelCityBox = false
   		this.activeCity.cityName = this.showCity 
-  		//console.log(this.hotelCityName)
-  		//console.log(this.hotelCityId)
   	}
   	
 	},

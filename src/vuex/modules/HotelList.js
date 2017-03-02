@@ -96,7 +96,7 @@ const actions = {
           type: opt.type,
           data: opt.data,
           errMsg: opt.errMsg,
-          loading: true
+          loading: opt.isInit
         })
         .then(res => {
             if (res.body.success) {
@@ -105,7 +105,7 @@ const actions = {
               resolve(res.body.result)
             }
             else {
-              reject(res.body.msg)
+              reject(res.body.resultMessage)
             }
         })
     })

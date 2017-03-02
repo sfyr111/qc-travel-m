@@ -41,11 +41,47 @@ let routes = [
     component: page.AirOrder,
     name: 'airOrder'
   },
+  //  机票乘客查询
+  {
+    path: '/passenagerList',
+    component: page.PassenagerList,
+    name: 'passenagerList'
+  },
+  //  机票乘客添加
+  {
+    path: '/passenagerModel',
+    component: page.PassenagerModel,
+    name: 'passenagerModel'
+  },
+  //  地址
+  {
+    path: '/addressModel',
+    component: page.Address,
+    name: 'addressModel'
+  },
   //  酒店列表
   {
     path: '/hotellist',
     component: page.HotelList,
     name: 'hotellist'
+  },
+  //  酒店详情
+  {
+    path: '/hoteldetail',
+    component: page.HotelDetail,
+    name: 'hoteldetail'
+  },
+  //  酒店简介设施
+  {
+    path: '/hotelprofiletools',
+    component: page.HotelProfileTools,
+    name: 'hotelprofiletools'
+  },
+  //  酒店评论
+  {
+    path: '/hotelcomment',
+    component: page.HotelComment,
+    name: 'hotelcomment'
   },
   //  管理中心
   {
@@ -79,7 +115,11 @@ let routes = [
   }
 ]
 const router = new VueRouter({
-  routes: routes
+  routes: routes,
+  // 页面跳转不记录滚动位置
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 // 添加loading动画
 router.beforeEach(function (to, from, next) {
