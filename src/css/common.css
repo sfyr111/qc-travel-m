@@ -102,7 +102,9 @@ html, body {
 .vux-popup-mask.vux-popup-show{
 	z-index: 110;
 }
-
+.addr_box .weui-cell {
+	height: 1.0rem;
+}
 
 /* --- 公共样式动画 --- */
 .slide-enter-active, .slide-leave-active{

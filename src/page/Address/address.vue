@@ -16,7 +16,14 @@
 			<div class="addr_row">
 				<span>所在地区</span>
 				<div class="addr_r">
-					<i class="icon iconfont icon-xiangyoujiantou"></i>
+					<group label-width="4em" label-align="left">
+				      	<x-address 
+				      		:title="title2" 
+				      		v-model="value2" 
+				      		raw-value 
+				      		:list="addressData" 
+				      		value-text-align="right"></x-address>
+				    </group>
 				</div>
 			</div>
 			<div class="addr_row">
@@ -69,9 +76,12 @@
 	}
 </style>
 <script>
+	import { Group, XAddress, ChinaAddressData } from 'vux'
 	import { MDButton } from '../../components'
 	export default {
 		components: {
+			Group, 
+			XAddress,
 			MDButton
 		},
 		data () {
@@ -96,6 +106,9 @@
                 province: {},
                 city: {},
                 area: {},
+                title2: '',
+                addressData: ChinaAddressData,
+                value2: ['广东省', '深圳市', '南山区'],
 			}
 		},
 		methods: {
