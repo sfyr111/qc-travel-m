@@ -15,6 +15,8 @@ import PassenagerModel from './Passenager/PassenagerModel.vue'
 import Address from './Address/address.vue'
 import HotelDetail from './HotelDetail.vue'
 import HotelComment from './HotelComment.vue'
+import HotelProfileTools from './HotelProfileTools.vue'
+import HotelMap from './HotelMap.vue'
 
 export default {
 	List,
@@ -33,5 +35,7 @@ export default {
     ManagementHotelOrder,
     ManagementHotelDetail,
     HotelDetail,
-    HotelComment
+    HotelComment,
+    HotelProfileTools,
+    HotelMap
 }

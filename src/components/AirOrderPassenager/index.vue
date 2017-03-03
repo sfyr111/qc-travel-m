@@ -14,7 +14,7 @@
 				<div class="insurance clearfix">
 					<span class="insurance_name">航空意外险</span>
 					<i class="icon iconfont icon-wenhao"></i>
-					<span class="insurance_inf">￥50/份<em>（最高赔付：50万/份）</em></span>
+					<span class="insurance_inf">￥20/份<em>（最高赔付：50万/份）</em></span>
 					<q-switch class="fr" :is-on="pass.checkIns" @q-switch="toggleSwitch(index)"></q-switch>
 				</div>
 			</div>
@@ -115,6 +115,7 @@
 				this.passChecked[index].checkIns = !this.passChecked[index].checkIns
 				sessionStorage.removeItem('passenagerChecked')
 				sessionStorage.setItem('passenagerChecked', JSON.stringify(this.passChecked))
+				this.$emit('toggle-switch')
 			},
 			checkPassenager (index) {
 				this.$emit('check-passenager')
@@ -132,6 +133,7 @@
 				this.passChecked.splice(index, 1)
 				sessionStorage.removeItem('passenagerChecked')
 				sessionStorage.setItem('passenagerChecked', JSON.stringify(this.passChecked))
+				this.$emit('toggle-switch')
 			}
 		}
 	}

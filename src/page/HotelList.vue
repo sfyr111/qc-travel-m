@@ -97,7 +97,7 @@
 		</div>
 
 		<!-- 酒店列表 -->
-		<hotel-list :list="getHotelList"></hotel-list>
+		<hotel-list :list="getHotelList" @to-hotel-detail="toHotelDetail"></hotel-list>
     
     <!-- loading more -->
     <loading-more v-if="getHotelList.length && !isLoadAll"></loading-more>
@@ -562,6 +562,18 @@ export default {
 			})
 			.catch(function (err) {
 				self.isCanGetHotelList = true
+			})
+		},
+
+		//	跳转酒店详情
+		toHotelDetail (hotelId) {
+			this.$router.push({
+				name: 'hoteldetail',
+				query: {
+					hotelId: hotelId,
+					checkInDate: this.checkInDate,
+					checkOutDate: this.checkOutDate
+				}
 			})
 		}
 	},

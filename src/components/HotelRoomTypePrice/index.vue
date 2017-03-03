@@ -1,36 +1,43 @@
 <template>
 	<div class="hotel_room_type_price">
-		<!-- 描述 -->
-		<div class="describe font26">
-			<div class="left bsizing">
-				<h2 class="font28">高级房</h2>
-				<div class="room">
-					房间：28平方 <em>3-4层</em>
+		<div v-for="(item, index) in room" v-if="PaymentToStoreFilter(item.hotelPlans).length">
+			<!-- 描述 -->
+			<div class="describe font26" @click="showList(item, index)">
+				<div class="left bsizing">
+					<h2 class="font28">{{ item.name }}</h2>
+					<div class="room">
+						房间：{{ item.area }}平方 <em>{{ item.floors }}层</em>
+					</div>
+					<div class="type">
+						床型：{{ item.bedDesc }}
+					</div> 
 				</div>
-				<div class="type">
-					床型：双床1.2米
+				<div class="right bsizing red_icon">
+					¥<em class="font32">{{ Math.floor(item.lowestAvgPrice) }}</em><i class="color_66">起</i>
+					<i class="icon iconfont color_66" v-if="!item.showList">&#xe65e;</i>
+					<i class="icon iconfont color_66" v-else>&#xe65d;</i>
 				</div>
 			</div>
-			<div class="right bsizing red_icon">
-				¥<em class="font32">180</em><i class="color_66">起</i>
-				<i class="icon iconfont color_66">&#xe65d;</i>
+
+			<!-- 房型房价列表 -->
+			<div class="list" v-show="item.showList">
+				<ul>
+					<li v-for="(val, key) in PaymentToStoreFilter(item.hotelPlans)">
+						<div class="container ver-center clearfix border-bottom-dashed border">
+							<div class="left fl font26">{{ val.planName }}</div>
+							<div class="middle fl bsizing font32 red_icon">
+								<em class="font22">¥</em>{{ Math.ceil(val.avgPrice) }}
+							</div>
+							<button class="right fl font3" v-if="!val.roomStatus">预订</button>
+							<button class="right fl font3 no_preorder_btn" v-else>满房</button>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 
-		<!-- 房型房价列表 -->
-		<div class="list">
-			<ul>
-				<li v-for="$index in 5">
-					<div class="container ver-center clearfix border-bottom-dashed border">
-						<div class="left fl font26">不含双早（预付）</div>
-						<div class="middle fl bsizing font32 red_icon">
-							<em class="font22">¥</em>180
-						</div>
-						<button class="right fl font3">预订</button>
-					</div>
-				</li>
-			</ul>
-		</div>
+		<!-- 全部为到店付款 -->
+		<no-data :str="loadNoData" v-if="offlinePay"></no-data>
 	</div>
 </template>
 
@@ -98,8 +105,56 @@
 					color: #fff;
 					border-radius: .08rem;
 				}
+				.no_preorder_btn{
+					background: #ccc;
+				}
 			}
 		}
 	}
 }
 </style>
+
+<script>
+import NoData from '../NoData'
+export default {
+	props: {
+		room: {
+			type: Array,
+			default: []
+		}
+	},
+
+	data () {
+		return {
+			offlinePay: true,			//	全部为到店付款
+			loadNoData: '暂无房型可预订'		//	初始化没有数据
+		}
+	},
+
+	components: {
+		NoData
+	},
+
+	methods: {
+		//	显示隐藏价格列表
+		showList (item, index) {
+			let msg = {
+				obj: item,
+				index: index
+			}
+			this.$emit('show-llist', msg)
+		},
+
+		//	过滤到店付款
+		PaymentToStoreFilter: function (list) {
+			let self = this
+			return list.filter(function (item) {
+				if (item.payType > 0) {
+					self.offlinePay = false
+				}
+				return item.payType > 0
+			})
+		}
+	}
+}
+</script>

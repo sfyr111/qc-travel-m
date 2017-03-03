@@ -3,8 +3,8 @@
 		<img src="https://img12.360buyimg.com/hotel/jfs/t2560/105/702427970/60618/95cbbf99/5660cd7eN0c67c2ca.jpg" alt="酒店图片">
 
 		<div class="bottom clearfix">
-			<span class="fl bsizing overfl-oneline">深圳四季大酒店</span>
-			<span class="fr bsizing">60张</span>
+			<span class="fl bsizing overfl-oneline">{{ baseInfo.name }}</span>
+			<span class="fr bsizing">{{ pictures.length }}张</span>
 		</div>
 	</div>
 </template>
@@ -43,3 +43,18 @@
 	}
 }
 </style>
+
+<script>
+export default {
+	props: {
+		pictures: {
+			type: Array,
+			default: []
+		},
+		baseInfo: {
+			type: Object,
+			default: {}
+		}
+	}
+}
+</script>

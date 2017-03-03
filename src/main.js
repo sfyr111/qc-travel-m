@@ -83,6 +83,12 @@ let routes = [
     component: page.HotelComment,
     name: 'hotelcomment'
   },
+  //  酒店地图
+  {
+    path: '/hotelmap',
+    component: page.HotelMap,
+    name: 'hotelmap'
+  },
   //  管理中心
   {
     path: '/managementcenter',

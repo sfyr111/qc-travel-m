@@ -39,6 +39,28 @@ const actions = {
         })
     });
   },
+  airBook ( { commit, state }, options ) {
+    let url = options.url
+    let data = options.data
+
+    return new Promise(function ( resolve, reject ) {
+      http.fetch(url, {
+        loading: true,
+        data: data,
+        type: options.type,
+        contentType: options.contentType,
+        errMsg: options.errMsg
+      })
+        .then(res => {
+          if (res.body.success) {
+            resolve(res.body)
+          }
+          if (!res.body.success) {
+            reject(res.body)
+          }
+        })
+    });
+  },
 }
 /**
  * 处理jd返回的数据

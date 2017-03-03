@@ -1,6 +1,6 @@
 <template>
     <div class="management-air-order-content">
-        <management-air-order></management-air-order>
+        <management-air-order @click.native="toAirDetail"></management-air-order>
     </div>
 </template>
 
@@ -9,6 +9,14 @@
     export default {
         components: {
             ManagementAirOrder
+        },
+        methods: {
+            // 跳转到机票详情页面
+            toAirDetail(){
+                this.$router.push({
+                    name: 'managementairdetail'
+                })
+            }
         }
     }
 </script>

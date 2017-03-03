@@ -23,7 +23,8 @@ import ManagementDetailChange from './ManagementDetailChange'
 import HotelDetailBanner from './HotelDetailBanner'
 import HotelDetailItem from './HotelDetailItem'
 import HotelRoomTypePrice from './HotelRoomTypePrice'
-
+import HotelCommentHead from './HotelCommentHead'
+import HotelCommentList from './HotelCommentList'
 
 const components = {
 	Loading,
@@ -51,6 +52,8 @@ const components = {
 	HotelDetailBanner,
 	HotelDetailItem,
 	HotelRoomTypePrice,
+	HotelCommentHead,
+	HotelCommentList
 }
 
 module.exports = components

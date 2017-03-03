@@ -2,7 +2,18 @@
   <div>
     <router-link tag="a" to="/airsearch" class="main_link to_air"><span class="btn_white">机票预订</span></router-link>
     <router-link tag="a" to="/hotelsearch" class="main_link to_hotel"><span class="btn_white">酒店预订</span></router-link>
+    <div class="bottom-tab clearfix">
+        <router-link tag="a" to="/" class="tab tab1 fl bsizing">
+            <i class="icon iconfont">&#xe6e9;</i>
+            <span class="color_66">首页</span>
+        </router-link>
+        <router-link tag="a" to="/managementcenter" class="tab tab2 fr">
+            <i class="icon iconfont">&#xe6e9;</i>
+            <span class="color_66">管理中心</span>
+        </router-link>
+    </div>
   </div>
+
 </template>
 <style>
   @import url('../css/reset.css');
@@ -36,5 +47,32 @@
     border: 1px solid #fff;
     border-radius: 4px;
     color: #fff;
+  }
+  .bottom-tab{
+    width: 100%;
+    height: 1rem;
+    background: #fff;
+    position: fixed;
+    bottom:0;
+    left:0;
+  }
+  .bottom-tab .tab{
+    display: block;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    font-size: .3rem;
+    line-height: 1rem;
+  }
+  .bottom-tab .tab1{
+    border-right: 1px solid #dddddd;
+  }
+  .bottom-tab .tab i{
+    font-size: .5rem;
+    color:#999;
+  }
+  .bottom-tab .tab:hover span,
+  .bottom-tab .tab:hover i{
+    color:#e50922;
   }
 </style>

@@ -53,6 +53,7 @@ var request = {
     */
     makeRequest: function (url, options) {
         var devAuthInfo;
+        var contentType = options.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
         var defaultOptions = {
             url: url,
             type: 'GET',
@@ -60,7 +61,8 @@ var request = {
             contentType: 'application/json',
             headers: {
                 'Accept': 'application/json, text/javascript, */*; q=0.01',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-Type': contentType,
+                // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }
         //本地开发环境下为每个请求添加webLappToken进行通信

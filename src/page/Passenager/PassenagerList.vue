@@ -58,6 +58,7 @@
 	import configUrl from '../../data/configUrl'
 	import { QCheckBox, MDButton, showTips } from '../../components'
 	import { mapGetters } from 'vuex'
+	import _ from 'lodash'
 	export default {
 		components: {
 			QCheckBox,
@@ -99,17 +100,15 @@
 		          showTips(resp.msg, 2000)
 		        })
 			},
-			checkedPass (index) {
-				sessionStorage.removeItem('passenagerChecked')		
+			checkedPass (index) {	
 				this.passList[index].isCheck = !this.passList[index].isCheck
-				let passenagerChecked = []
+				let passenagerChecked = JSON.parse(sessionStorage.getItem('passenagerChecked')) || []
 				this.passList.map(function (item) {
 					if (item.isCheck) {
 						passenagerChecked.push(item)
 					}
 				})
-				let passSet = new Set(passenagerChecked)
-				sessionStorage.setItem('passenagerChecked', JSON.stringify(passSet))
+				sessionStorage.setItem('passenagerChecked', JSON.stringify(_.uniqBy(passenagerChecked, 'id')))
 			},
 			// 维护乘客
 			updatePass (index) {

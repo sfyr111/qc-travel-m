@@ -1,6 +1,6 @@
 <template>
     <div class="management-hotel-order-content">
-        <div class="hotel-order-information color_66">
+        <div class="hotel-order-information color_66" @click="toHotelDetail">
             <ul>
                 <li class="clearfix color_33 font32">
                     深证市航海格云大酒店
@@ -18,6 +18,19 @@
         </div>
     </div>
 </template>
+
+<script>
+    export default {
+        methods: {
+            // 跳转到酒店详情页
+            toHotelDetail(){
+                this.$router.push({
+                    name: 'managementhoteldetail'
+                })
+            }
+        }
+    }
+</script>
 
 <style scoped>
     .management-hotel-order-content{

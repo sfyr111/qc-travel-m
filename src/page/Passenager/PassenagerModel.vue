@@ -108,7 +108,7 @@
 </style>
 <script>
 	import configUrl from '../../data/configUrl'
-	import showTips from '../../components'
+	import showTips from '../../components/ShowTips/index.js'
 	export default {
 		components: {
 			showTips
@@ -125,10 +125,11 @@
 	            	psgtype: 'ADT',
 	            	certId: '',
 	            	phoneNum: '',
-	            	psgsex: '',
+	            	psgsex: 'M',
 	            	email: '',
 	            	birthday: ''
 				},
+				btnUse: false,
 				certtypes: [
 					{
 						value: "IDC",
@@ -194,12 +195,33 @@
 				this.$router.go(-1)
 			},
 			save () {
+				if (this.btnUse) {
+					showTips('请勿重复提交！', 2000)
+					return
+				}
 				let _this = this
 				let opt = {
 					url: configUrl.passSave.dataUrl,
 					type: 'post',
 					data: this.passenager
 				}
+				if (!this.passenager.name) {
+					showTips('姓名不能为空！', 2000)
+					return
+				}
+				if (!this.passenager.birthday) {
+					showTips('生日不能为空！', 2000)
+					return
+				}
+				if (!this.passenager.phoneNum) {
+					showTips('手机号码不能为空！', 2000)
+					return
+				}
+				if (!this.passenager.certId) {
+					showTips('证件号码不能为空！', 2000)
+					return
+				}
+				this.btnUse = true
 				this.$store.dispatch('passSave', opt).then(function (resp) {
 					let passSave = JSON.parse(sessionStorage.getItem('passenagerChecked'))
 					let passChecked = []
@@ -212,9 +234,11 @@
 						})
 						sessionStorage.setItem('passenagerChecked', JSON.stringify(passChecked))
 					}					
+					_this.btnUse = false
 					_this.$router.go(-1)
 				}).catch(function (resp) {
-					console.log(resp)
+					showTips(resp.msg)
+					_this.btnUse = false
 				})
 			}
 		}

@@ -1,12 +1,12 @@
 <template>
     <div class="management-center color_33">
         <ul>
-            <li class="air-order clearfix border border-bottom">
+            <li class="air-order clearfix border border-bottom" @click="toAirOrder">
                 <div class="fl"><img src="../assets/jipiao.svg"></div>
                 <div class="fl">机票订单</div>
                 <div class="fr"><i class="icon iconfont">&#xe620;</i></div>
             </li>
-            <li class="hotel-order clearfix">
+            <li class="hotel-order clearfix" @click="toHotelOrder">
                 <div class="fl"><i class="icon iconfont orange_icon">&#xe640;</i></div>
                 <div class="fl">酒店订单</div>
                 <div class="fr"><i class="icon iconfont">&#xe620;</i></div>
@@ -18,6 +18,26 @@
         </ul>
     </div>
 </template>
+
+<script>
+    export default {
+        methods: {
+            // 跳转到机票订单页面
+            toAirOrder(){
+                this.$router.push({
+                    name: 'managementairorder'
+                })
+            },
+            // 跳转到酒店订单页面
+            toHotelOrder(){
+                this.$router.push({
+                    name: 'managementhotelorder'
+                })
+            }
+        }
+    }
+</script>
+
 <style scoped>
     .management-center{
         padding-top: .2rem;
