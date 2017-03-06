@@ -9,6 +9,7 @@ import CityAir from './modules/CityAir'
 import ListAir from './modules/ListAir'
 import Passenager from './modules/Passenager'
 import Address from './modules/Address'
+import Mange from './modules/Mange'
 
 Vue.use(Vuex)
 var store = new Vuex.Store({
@@ -17,11 +18,12 @@ var store = new Vuex.Store({
 	modules: {
 		Loading,
 		HotelList,
-	    CityAir,
-	    ListAir,
-	    Passenager,
-	    HotelDetail,
-	    Address
+    CityAir,
+    ListAir,
+    Passenager,
+    HotelDetail,
+    Address,
+    Mange
 	}
 })
 

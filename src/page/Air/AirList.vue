@@ -7,7 +7,7 @@
       @select-date="setDate"
       :city-dep="cityDep"
       :city-arr="cityArr"></air-list-head>
-      
+
       <!-- 机票列表展示 -->
       <air-list-table
         @order-single="orderSingle"
@@ -24,8 +24,8 @@
 
       <!-- nodata -->
       <no-data :str="datamsg" v-if="showNoData"></no-data>
-      <tip-change 
-        :show="showTip" 
+      <tip-change
+        :show="showTip"
         :ticket-turn="ticketTurn"
         :ticket-change="ticketChange"
         :ticket-back="ticketBack"
@@ -34,9 +34,9 @@
   </transition>
 </template>
 <script>
-  import http from '../api/http'
-  import { AirListHead, AirListTable, AirListFoot, TipChange, NoData } from '../components'
-  import configUrl from '../data/configUrl'
+  import http from '../../api/http'
+  import { AirListHead, AirListTable, AirListFoot, TipChange, NoData } from '../../components'
+  import configUrl from '../../data/configUrl'
   import { mapGetters } from 'vuex'
   export default {
   	computed: {
@@ -101,7 +101,7 @@
         showTip: false,     // 是否展示退改签组件
         ticketTurn: '',
         ticketChange: '',
-        ticketBack: '',      
+        ticketBack: '',
         initQuery: true,    // 初始化查询，确定是否在返回数组中使用push
         datamsg: '',        // nodata组件查询展示信息
         isQuery: false      // 查询节流

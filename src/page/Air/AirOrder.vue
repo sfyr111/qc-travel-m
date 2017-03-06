@@ -2,7 +2,7 @@
 	<transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
 		<div>
 			<!-- 机票信息 -->
-			<air-order-trip 
+			<air-order-trip
 				:trip-list="trips"
 				@show-tip="showTipData"></air-order-trip>
 			<!-- 乘客信息 -->
@@ -13,19 +13,19 @@
 				<h3>联系人信息</h3>
 				<div class="contact">
 					<div class="input" >
-						<input type="text" placeholder="姓名" v-model="linkmanName">					
+						<input type="text" placeholder="姓名" v-model="linkmanName">
 					</div>
-					<div class="input">					
+					<div class="input">
 						<input type="tel" placeholder="手机号码" v-model="linkmanMobile">
 					</div>
-					<div class="input">					
+					<div class="input">
 						<input type="email" placeholder="邮箱" v-model="linkmanEmail">
 					</div>
 				</div>
 			</div>
 			<!-- 发票信息 -->
 			<div class="invoice_box">
-				<div class="invoice_hd">				
+				<div class="invoice_hd">
 					<h3 class="">报销凭证</h3>
 					<select v-model="deliverytype">
 						<option :value="deliverytype.value" v-for="deliverytype in deliverytypes">{{deliverytype.text}}</option>
@@ -42,7 +42,7 @@
 							<i class="icon iconfont icon-zhengque" v-show="addressIndex==index"></i>
 						</td>
 					</tr>
-				</table>			
+				</table>
 				<div class="address_add" v-show="deliverytype != 'NOD' && addressList.length==0" @click="addAddress()">
 					<i class="icon iconfont icon-addcircle"></i>
 					<span>添加邮寄地址</span>
@@ -79,9 +79,9 @@
 				</ul>
 			</div>
 			<div v-show="showPriceTip" class="price_box" @click="hidePriceTips()"></div>
-					
-			<tip-change 
-		      :show="showTip" 
+
+			<tip-change
+		      :show="showTip"
 		      :ticket-turn="ticketTurn"
 		      :ticket-change="ticketChange"
 		      :ticket-back="ticketBack"
@@ -90,9 +90,9 @@
 	</transition>
 </template>
 <script>
-	import http from '../api/http'
-	import configUrl from '../data/configUrl'
-	import { AirOrderTrip, AirOrderPassenager, TipChange, showTips } from '../components'
+	import http from '../../api/http'
+	import configUrl from '../../data/configUrl'
+	import { AirOrderTrip, AirOrderPassenager, TipChange, showTips } from '../../components'
 	import { mapGetters } from 'vuex'
 	export default {
 		components: {
@@ -185,7 +185,7 @@
 			address () {
 				let index = this.addressIndex
 				return this.addressList[index]
-			}																
+			}
 		},
 		created () {
 			this.initAddress()
@@ -197,7 +197,7 @@
 				showTip: false,
 				ticketTurn: '',
 				ticketChange: '',
-				ticketBack: '',			
+				ticketBack: '',
 				deliverytype: 'FRP',		// 邮寄方式
 				deliverytypes: [
 					{
@@ -377,7 +377,7 @@
 		          }
 		          this.total += passenger.price
 		        }
-		        this.passengers = this.passengers.concat([])    
+		        this.passengers = this.passengers.concat([])
 		      }
 		    },
 		}
@@ -418,10 +418,10 @@
 		background-color: #ffffff;
 		.invoice_hd {
 			display: flex;
-			padding-left: .10rem;			
+			padding-left: .10rem;
 			line-height: .60rem;
 			border-bottom: 1px solid #bfbfbf;
-			h3 {				
+			h3 {
 				flex: 1.5;
 				font-size: .32rem;
 			}
@@ -447,7 +447,7 @@
 					color: #ee3535;
 				}
 			}
-		}		
+		}
 		.address_add {
 			line-height: .80rem;
 			i {

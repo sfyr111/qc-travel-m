@@ -7,8 +7,8 @@
             <i class="icon iconfont">&#xe6e9;</i>
             <span class="color_66">首页</span>
         </router-link>
-        <router-link tag="a" to="/managementcenter" class="tab tab2 fr">
-            <i class="icon iconfont">&#xe6e9;</i>
+        <router-link tag="a" to="/manageCenter" class="tab tab2 fr">
+            <i class="fa fa-th-large"></i>
             <span class="color_66">管理中心</span>
         </router-link>
     </div>

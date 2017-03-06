@@ -1,4 +1,4 @@
-let devRootPath = 'http://192.168.16.16:8080/qc-travel/'
+let devRootPath = 'http://192.168.16.210:8080/qc-travel/'
 let proRootPath = 'http://jl.17cai.com/security/'
 let rootPath = process.env.NODE_ENV === "production" ? proRootPath : devRootPath
 let imgPath = process.env.NODE_ENV === "production" ? "http://travel.17cai.com/static/img/" : "http://travel.17cai.com/static/img/"
@@ -80,6 +80,22 @@ const configUrl = {
   //  酒店评论
   hotelComment: {
     dataUrl: rootPath + 'security/hotel/get_hotel_comment'
-  }
+  },
+  // 机票订单列表
+  listOrderAir: {
+    dataUrl: rootPath + 'security/aircraft/user_flight_order_list'
+  },
+  // 机票订单详情
+  OrderAirDetail: {
+    dataUrl: rootPath + 'security/aircraft/flight_order_detail'
+  },
+  // 机票订单列表
+  listOrderHotel: {
+    dataUrl: rootPath + 'security/hotel/user_hotel_order_list'
+  },
+  // 酒店订单详情
+  OrderHotelDetail: {
+    dataUrl: rootPath + 'security/hotel/user_hotel_order_detail'
+  },
 }
 export default configUrl

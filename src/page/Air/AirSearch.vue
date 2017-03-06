@@ -60,10 +60,10 @@
 	</transition>
 </template>
 <script>
-	import { MDButton, CityAir } from '../components'
+	import { MDButton, CityAir } from '../../components'
 	import { Loading, Group, Calendar, dateFormat } from 'vux'
 	import { mapGetters } from 'vuex'
-  import configUrl from '../data/configUrl'
+  import configUrl from '../../data/configUrl'
 	export default {
 		data () {
 			return {
@@ -222,7 +222,7 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: 24px;
-				background-image: url("../assets/images/single2return.png");
+				background-image: url("../../assets/images/single2return.png");
 			}
 			.city {
 				display: inline-block;

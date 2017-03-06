@@ -25,7 +25,7 @@
             // 跳转到酒店详情页
             toHotelDetail(){
                 this.$router.push({
-                    name: 'managementhoteldetail'
+                    name: 'detailHotel'
                 })
             }
         }

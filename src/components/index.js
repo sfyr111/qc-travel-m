@@ -5,7 +5,6 @@ import QSwitch from './QSwitch'
 import QCheckBox from './QCheckBox'
 import NoData from './NoData'
 import CityAir from './CityAir'
-import ManagementAirOrder from './ManagementAirOrder'
 import HotelList from './HotelList'
 import HotelListHead from './HotelListHead'
 import ColumnButton from './ColumnButton'
@@ -34,7 +33,6 @@ const components = {
 	QCheckBox,
 	NoData,
 	CityAir,
-  	ManagementAirOrder,
 	HotelList,
 	HotelListHead,
 	ColumnButton,

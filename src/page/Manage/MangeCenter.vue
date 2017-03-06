@@ -2,7 +2,7 @@
     <div class="management-center color_33">
         <ul>
             <li class="air-order clearfix border border-bottom" @click="toAirOrder">
-                <div class="fl"><img src="../assets/jipiao.svg"></div>
+                <div class="fl"><img src="../../assets/jipiao.svg"></div>
                 <div class="fl">机票订单</div>
                 <div class="fr"><i class="icon iconfont">&#xe620;</i></div>
             </li>
@@ -25,13 +25,13 @@
             // 跳转到机票订单页面
             toAirOrder(){
                 this.$router.push({
-                    name: 'managementairorder'
+                    name: 'listOrderAir'
                 })
             },
             // 跳转到酒店订单页面
             toHotelOrder(){
                 this.$router.push({
-                    name: 'managementhotelorder'
+                    name: 'listOrderHotel'
                 })
             }
         }

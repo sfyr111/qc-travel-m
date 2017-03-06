@@ -91,33 +91,33 @@ let routes = [
   },
   //  管理中心
   {
-    path: '/managementcenter',
-    component: page.ManagementCenter,
-    name: 'managementcenter'
+    path: '/manageCenter',
+    component: page.MangeCenter,
+    name: 'manageCenter'
   },
   //  管理中心-机票订单
   {
-    path: '/managementairorder',
-    component: page.ManagementAirOrder,
-    name: 'managementairorder'
+    path: '/listOrderAir',
+    component: page.ListOrderAir,
+    name: 'listOrderAir'
   },
   //  管理中心-机票详情
   {
-    path: '/managementairdetail',
-    component: page.ManagementAirDetail,
-    name: 'managementairdetail'
+    path: '/detailAir',
+    component: page.DetailAir,
+    name: 'detailAir'
   },
   //  管理中心-酒店订单
   {
-    path: '/managementhotelorder',
-    component: page.ManagementHotelOrder,
-    name: 'managementhotelorder'
+    path: '/listOrderHotel',
+    component: page.ListOrderHotel,
+    name: 'listOrderHotel'
   },
   //  管理中心-酒店详情
   {
-    path: '/managementhoteldetail',
-    component: page.ManagementHotelDetail,
-    name: 'managementhoteldetail'
+    path: '/detailHotel',
+    component: page.DetailHotel,
+    name: 'detailHotel'
   }
 ]
 const router = new VueRouter({
