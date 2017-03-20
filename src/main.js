@@ -89,13 +89,25 @@ let routes = [
     component: page.HotelMap,
     name: 'hotelmap'
   },
+  //  酒店图片预览
+  {
+    path: '/hotelphoto',
+    component: page.HotelPhoto,
+    name: 'hotelphoto'
+  },
+  //  酒店预下单
+  {
+    path: '/hotelpreorder',
+    component: page.HotelPreOrder,
+    name: 'hotelpreorder'
+  },
   //  管理中心
   {
-    path: '/manageCenter',
-    component: page.MangeCenter,
-    name: 'manageCenter'
+    path: '/managementcenter',
+    component: page.ManagementCenter,
+    name: 'managementcenter'
   },
-  //  管理中心-机票订单
+   //  管理中心-机票订单
   {
     path: '/listOrderAir',
     component: page.ListOrderAir,
@@ -143,4 +155,3 @@ new Vue({
 }).$mount('#app')
 
 Fastclick.attach(document.body)
-

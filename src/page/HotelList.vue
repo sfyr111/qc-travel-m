@@ -5,6 +5,7 @@
 			<hotel-list-head
 			:city-name="cityName"
 			@show-select-city="showSelectCity"
+			@hotel-name-search="hotelNameSearch"
 			></hotel-list-head>
 		
 			<!-- 筛选按钮 -->
@@ -575,6 +576,12 @@ export default {
 					checkOutDate: this.checkOutDate
 				}
 			})
+		},
+
+		//酒店名查询
+		hotelNameSearch (hotelName) {
+			this.name = hotelName
+			this.checkHotelList(true)
 		}
 	},
 

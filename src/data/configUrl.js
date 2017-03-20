@@ -81,6 +81,18 @@ const configUrl = {
   hotelComment: {
     dataUrl: rootPath + 'security/hotel/get_hotel_comment'
   },
+  //  邮寄地址 省份
+  getAllProvince: {
+    dataUrl: rootPath + 'security/comm/get_all_province'
+  },
+  //  邮寄地址 城市
+  getAllCity: {
+    dataUrl: rootPath + 'security/comm/get_all_city'
+  },
+  //  邮寄地址 区域
+  getAllArea: {
+    dataUrl: rootPath + 'security/comm/get_all_area'
+  },
   // 机票订单列表
   listOrderAir: {
     dataUrl: rootPath + 'security/aircraft/user_flight_order_list'

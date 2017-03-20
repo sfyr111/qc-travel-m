@@ -1,6 +1,6 @@
 <template>
-	<div class="hotel_detail_banner">
-		<img src="https://img12.360buyimg.com/hotel/jfs/t2560/105/702427970/60618/95cbbf99/5660cd7eN0c67c2ca.jpg" alt="酒店图片">
+	<div class="hotel_detail_banner" @click="hotelPhoto">
+		<img :src="baseInfo.imgUrl" alt="酒店图片">
 
 		<div class="bottom clearfix">
 			<span class="fl bsizing overfl-oneline">{{ baseInfo.name }}</span>
@@ -55,6 +55,12 @@ export default {
 			type: Object,
 			default: {}
 		}
-	}
+	},
+		methods: {
+			//	跳转酒店图片
+			hotelPhoto () {
+				this.$emit('to-hotel-photo')
+			}
+		}
 }
 </script>

@@ -17,6 +17,8 @@ import HotelDetail from './HotelDetail.vue'
 import HotelComment from './HotelComment.vue'
 import HotelProfileTools from './HotelProfileTools.vue'
 import HotelMap from './HotelMap.vue'
+import HotelPhoto from './HotelPhoto.vue'
+import HotelPreOrder from './HotelPreOrder.vue'
 
 export default {
 	List,
@@ -37,5 +39,7 @@ export default {
   HotelDetail,
   HotelComment,
   HotelProfileTools,
-  HotelMap
+  HotelMap,
+  HotelPhoto,
+  HotelPreOrder,
 }

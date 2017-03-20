@@ -24,6 +24,15 @@ import HotelDetailItem from './HotelDetailItem'
 import HotelRoomTypePrice from './HotelRoomTypePrice'
 import HotelCommentHead from './HotelCommentHead'
 import HotelCommentList from './HotelCommentList'
+import HotelPreOrderRoomInfo from './HotelPreOrderRoomInfo'
+import HotelCheckInfo from './HotelCheckInfo'
+import HotelIsNeedInvoice from './HotelIsNeedInvoice'
+import HotelSubmitOrder from './HotelSubmitOrder'
+import HotelMailAddressList from './HotelMailAddressList'
+import Tab from './Tab'
+import MailAddress from './MailAddress'
+import MailAddressList from './MailAddressList'
+
 
 const components = {
 	Loading,
@@ -51,7 +60,15 @@ const components = {
 	HotelDetailItem,
 	HotelRoomTypePrice,
 	HotelCommentHead,
-	HotelCommentList
+	HotelCommentList,
+	HotelPreOrderRoomInfo,
+	HotelCheckInfo,
+	HotelIsNeedInvoice,
+	HotelSubmitOrder,
+	HotelMailAddressList,
+	Tab,
+	MailAddress,
+	MailAddressList
 }
 
 module.exports = components

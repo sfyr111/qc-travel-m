@@ -28,7 +28,7 @@
 							<div class="middle fl bsizing font32 red_icon">
 								<em class="font22">¥</em>{{ Math.ceil(val.avgPrice) }}
 							</div>
-							<button class="right fl font3" v-if="!val.roomStatus">预订</button>
+							<button class="right fl font3" v-if="!val.roomStatus" @click="toPreOrder">预订</button>
 							<button class="right fl font3 no_preorder_btn" v-else>满房</button>
 						</div>
 					</li>
@@ -153,6 +153,13 @@ export default {
 					self.offlinePay = false
 				}
 				return item.payType > 0
+			})
+		},
+
+		//	酒店预订
+		toPreOrder () {
+			this.$router.push({
+				name: 'hotelpreorder'
 			})
 		}
 	}

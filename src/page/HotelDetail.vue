@@ -1,7 +1,12 @@
 <template>
 	<div class="hotel_detail">
 		<!-- 酒店banner -->
-		<hotel-detail-banner v-if="getHotelDetail.baseInfo && getHotelDetail.pictures" :base-info="getHotelDetail.baseInfo" :pictures="getHotelDetail.pictures"></hotel-detail-banner>
+		<hotel-detail-banner
+		v-if="getHotelDetail.baseInfo && getHotelDetail.pictures"
+		:base-info="getHotelDetail.baseInfo"
+		:pictures="getHotelDetail.pictures"
+		@to-hotel-photo="toHotelPhoto"
+		></hotel-detail-banner>
 
 		<!-- 酒店点评item -->
 		<hotel-detail-item @item-click="toComment" v-if="getHotelDetail.level">
@@ -16,7 +21,7 @@
 		</hotel-detail-item>
 
 		<!-- 酒店地图item -->
-		<hotel-detail-item class="border_none" v-if="getHotelDetail.baseInfo">
+		<hotel-detail-item class="border_none" v-if="getHotelDetail.baseInfo" @item-click="toHotelMap">
 			<div slot="left" class="color_33 overfl-oneline">
 				{{ getHotelDetail.baseInfo.address }}
 			</div>
@@ -91,16 +96,16 @@ export default {
 		let arr2 = this.checkOutDate.split('-')
 		this.showStartDate = arr1[1] + '月' + arr1[2] + '日'
 		this.showEndDate = arr2[1] + '月' + arr2[2] + '日'
-
-		//	页面刷新了或第一次进入页面初始化数据
-		if (typeof this.getHotelDetail.relatedInfos === 'undefined') {
-			//	初始化酒店详情
-			this.initDetail()
-
-			//	初始化酒店房型房价信息
-			this.checkHotelRoomTypePrice()
-		}
 		
+		/*if (typeof this.getHotelDetail.detailInfo === 'undefined') {
+			//	页面刷新初始化酒店详情
+			this.initDetail()
+			this.checkHotelRoomTypePrice()
+		}*/
+
+		//	页面刷新初始化酒店详情
+		this.initDetail()
+		this.checkHotelRoomTypePrice()
 	},
 
 	mounted () {
@@ -132,7 +137,7 @@ export default {
 					checkOutDate: this.checkOutDate
 				},
 				success: function (resp) {
-					console.log('获取详情成功')
+					sessionStorage.setItem('hotelDetail', JSON.stringify(resp))
 				},
 				fail: function (msg) {
 					alert(msg)
@@ -211,6 +216,26 @@ export default {
 
 			//	显示对应房型房价
 			this.SHOWHOTELROOMTYPEPRICELIST(obj)
+		},
+
+		//	酒店地图
+		toHotelMap () {
+			this.$router.push({
+				name: 'hotelmap',
+				replace: true,
+				query: {
+					longitude: this.getHotelDetail.baseInfo.longitude,
+					latitude: this.getHotelDetail.baseInfo.latitude,
+					hotelName: this.getHotelDetail.baseInfo.name
+				}
+			})
+		},
+
+		//	酒店图片
+		toHotelPhoto () {
+			this.$router.push({
+				name: 'hotelphoto'
+			})
 		}
 	},
 

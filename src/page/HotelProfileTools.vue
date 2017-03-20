@@ -86,7 +86,7 @@ export default {
 		if (typeof this.getHotelDetail.relatedInfos === 'undefined') {
 			//	页面刷新初始化酒店详情
 			this.initDetail()
-			this.checkHotelRoomTypePrice()
+			//this.checkHotelRoomTypePrice()
 		}
 		//	页面没有刷新  则存在
 		else {

@@ -1,6 +1,5 @@
 import vue from 'vue'
 
-
 export default vue.directive('scroll-bottom', {
     timer: null,
     checkBottom: function (throttle, distance, loadMore) {
