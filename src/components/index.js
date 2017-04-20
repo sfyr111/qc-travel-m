@@ -32,6 +32,11 @@ import HotelMailAddressList from './HotelMailAddressList'
 import Tab from './Tab'
 import MailAddress from './MailAddress'
 import MailAddressList from './MailAddressList'
+import PayOrderInfo from './PayOrderInfo'
+import PayMethods from './PayMethods'
+import PayNoPassword from './PayNoPassword'
+import PayInputPassword from './PayInputPassword'
+import AddMailAddressBtn from './AddMailAddressBtn'
 
 
 const components = {
@@ -68,7 +73,12 @@ const components = {
 	HotelMailAddressList,
 	Tab,
 	MailAddress,
-	MailAddressList
+	MailAddressList,
+	PayOrderInfo,
+	PayMethods,
+	PayNoPassword,
+	PayInputPassword,
+	AddMailAddressBtn
 }
 
 module.exports = components

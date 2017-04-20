@@ -56,7 +56,7 @@ let routes = [
   //  地址
   {
     path: '/addressModel',
-    component: page.Address,
+    component: page.MAddress,
     name: 'addressModel'
   },
   //  酒店列表
@@ -101,11 +101,18 @@ let routes = [
     component: page.HotelPreOrder,
     name: 'hotelpreorder'
   },
+
+  //  支付
+  {
+    path: '/pay',
+    component: page.Pay,
+    name: 'pay'
+  },
   //  管理中心
   {
-    path: '/managementcenter',
-    component: page.ManagementCenter,
-    name: 'managementcenter'
+    path: '/manageCenter',
+    component: page.MangeCenter,
+    name: 'manageCenter'
   },
    //  管理中心-机票订单
   {

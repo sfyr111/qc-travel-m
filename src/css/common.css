@@ -111,6 +111,12 @@ html, body {
 	height: 100%;
 	overflow: hidden;
 }
+.color_99{
+	color: #999;
+}
+.color_bb{
+	color: #bbb;
+}
 
 /* --- 公共样式动画 --- */
 .slide-enter-active, .slide-leave-active{

@@ -12,13 +12,14 @@ import ListOrderHotel from './Manage/ListOrderHotel.vue'
 import DetailHotel from './Manage/DetailHotel.vue'
 import PassenagerList from './Passenager/PassenagerList.vue'
 import PassenagerModel from './Passenager/PassenagerModel.vue'
-import Address from './Address/address.vue'
+import MAddress from './MAddress'
 import HotelDetail from './HotelDetail.vue'
 import HotelComment from './HotelComment.vue'
 import HotelProfileTools from './HotelProfileTools.vue'
 import HotelMap from './HotelMap.vue'
 import HotelPhoto from './HotelPhoto.vue'
 import HotelPreOrder from './HotelPreOrder.vue'
+import Pay from './Pay.vue'
 
 export default {
 	List,
@@ -28,7 +29,7 @@ export default {
   HotelList,
   PassenagerList,
   PassenagerModel,
-  Address,
+  MAddress,
   AirList,
   AirOrder,
   MangeCenter,
@@ -42,4 +43,5 @@ export default {
   HotelMap,
   HotelPhoto,
   HotelPreOrder,
+  Pay
 }

@@ -27,9 +27,11 @@ const actions = {
         if (res.body.success) {
           commit(types.ADDRESSLIST, res.body.data)
           resolve(res.body)
+          options.success(res.body.data)
         }
         if (!res.body.success) {
           reject(res.body)
+          options.fail(res)
         }
       })
     });

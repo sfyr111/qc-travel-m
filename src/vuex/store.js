@@ -5,6 +5,7 @@ import * as getters from './getters'
 import Loading from './modules/Loading'
 import HotelList from './modules/HotelList'
 import HotelDetail from './modules/HotelDetail'
+import HotelPreOrder from './modules/HotelPreOrder'
 import CityAir from './modules/CityAir'
 import ListAir from './modules/ListAir'
 import Passenager from './modules/Passenager'
@@ -26,7 +27,8 @@ var store = new Vuex.Store({
 	    HotelDetail,
 	    Address,
 	    EmailAddress,
-	    Mange
+	    Mange,
+	    HotelPreOrder
 	}
 })
 

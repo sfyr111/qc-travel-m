@@ -21,7 +21,9 @@ const actions = {
     let url = options.url
     let data = options.data
 
-    state.listOrderAir = []
+    if (options.initQuery) {
+      state.listOrderAir = []
+    }
     return new Promise(function ( resolve, reject ) {
       http.fetch(url, {
         loading: true,
@@ -54,7 +56,7 @@ const actions = {
       })
         .then(res => {
           if (res.body.success) {
-            commit(types.ORDERAIRDETAIL, res.body.data)
+            commit(types.ORDERAIRDETAIL, res.body.data.result)
             resolve(res.body)
           }
           if (!res.body.success) {
@@ -113,7 +115,7 @@ const actions = {
 
 const mutations = {
   [types.LISTORDERAIR]: (state, data) => {
-    state.listOrderAir = data
+    state.listOrderAir = state.listOrderAir.concat(data)
   },
   [types.LISTORDERHOTEL]: (state, data) => {
     state.listOrderHotel = data

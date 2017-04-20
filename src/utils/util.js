@@ -108,6 +108,17 @@ const util = {
 
     return Math.floor((end - start) / 1000 / (24 * 60 * 60))
   },
+
+  //  获取页面根路劲
+  getRootPath: function () {
+      //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+      var curWwwPath = window.document.location.href;
+      //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+      var pathName = window.document.location.pathname;
+      var pos = curWwwPath.indexOf(pathName);
+      //获取主机地址，如： http://localhost:8083
+      return curWwwPath.substring(0, pos);
+  }
 }
 
 module.exports = util

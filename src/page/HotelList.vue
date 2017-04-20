@@ -223,6 +223,10 @@ export default {
 	},
 
 	methods: {
+		scrollBottom () {
+			console.log(2255)
+		},
+
 		//	vuex actions
 		...mapActions([ 'hotelCityInput', 'hotelCity', 'hotelArea', 'setHotelList' ]),
 

@@ -109,5 +109,13 @@ const configUrl = {
   OrderHotelDetail: {
     dataUrl: rootPath + 'security/hotel/user_hotel_order_detail'
   },
+  // 酒店预订 房间数量查询
+  checkHotelRoomNum: {
+    dataUrl: rootPath + 'security/hotel/get_room_number'
+  },
+  // 酒店下单
+  hotelPreOrder: {
+    dataUrl: rootPath + 'security/hotel/prebook_hotel'
+  },
 }
 export default configUrl

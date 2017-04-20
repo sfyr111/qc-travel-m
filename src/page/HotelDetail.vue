@@ -48,6 +48,7 @@
 		v-if="getHotelRoomTypePrice.hotelRooms"
 		:room="getHotelRoomTypePrice.hotelRooms"
 		@show-llist="showRoomTypeList"
+		@to-order="toOrder"
 		></hotel-room-type-price>
 
 		<!-- 酒店简介设施item -->
@@ -235,6 +236,39 @@ export default {
 		toHotelPhoto () {
 			this.$router.push({
 				name: 'hotelphoto'
+			})
+		},
+
+		//	酒店预订
+		toOrder (opt) {
+			let parent = opt.parent
+			let child = opt.child
+			
+			let obj = {
+				hotelId: child.hotelId,
+				hotelName: this.getHotelDetail.baseInfo.name,
+				roomTypeId: child.roomTypeId,
+				pricePlanId: child.pricePlanId,
+				checkInDate: this.checkInDate,
+				checkOutDate: this.checkOutDate,
+				cityId: this.getHotelDetail.baseInfo.cityId,
+				cityName: this.getHotelDetail.baseInfo.cityName,
+				address: this.getHotelDetail.baseInfo.address,
+				supplierType: child.supplierType,
+				bedDesc: parent.bedDesc,
+				titleName: parent.name,
+				hotelPhone: this.getHotelDetail.baseInfo.phone,
+				price: child.avgPrice,
+				planName: child.planName
+			}
+
+			sessionStorage.setItem('hotelOrderInfoObj', JSON.stringify(obj))
+
+			this.$router.push({
+				name: 'hotelpreorder',
+				query: {
+					star: this.getHotelDetail.baseInfo.star
+				}
 			})
 		}
 	},

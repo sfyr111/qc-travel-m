@@ -7,18 +7,18 @@
 					<div class="fl middle bsizing">{{roomNum}}间</div>
 					<span class="fr"><i class="icon iconfont">&#xe65e;</i></span>
 
-					<select v-model="roomNum">
-						<option :value="$index" v-for="$index in 5">{{ $index }}</option>
+					<select v-model="roomNum" @change="selectRoomNum">
+						<option :value="$index" v-for="$index in num">{{ $index }}</option>
 					</select>
 				</div>
 			</li>
 			<li>
-				<div class="border-bottom-dashed border">
+				<div class="border-bottom-dashed border" v-for="(item, index) in livePerson" :key="index">
 					<dl class="clearfix">
 						<label>
 							<dt class="fl color_66 ver-center">入住人</dt>
 							<dd class="fl middle bsizing">
-								<input type="text">
+								<input :value="item.name" @blur="inputBlur(index, $event)">
 							</dd>
 						</label>
 					</dl>
@@ -29,7 +29,7 @@
 					<label>
 						<span class="fl color_66 ver-center">联系电话</span>
 						<div class="fl middle bsizing">
-							<input type="text" v-model="phone">
+							<input type="number" v-model="phone">
 						</div>
 					</label>
 				</div>
@@ -132,11 +132,60 @@
 
 <script>
 export default {
+	props: {
+		num: {
+			type: Number,
+			default: 0
+		}
+	},
 	data () {
 		return {
 			roomNum: 1,			//	房间数
-			livePerson: '',		//	入住人
-			phone: '',					//	联系电话
+			livePerson: [{name: ''}],		//	入住人
+			phone: ''				//	联系电话
+		}
+	},
+
+	methods: {
+		//	选择房间数
+		selectRoomNum () {
+			let len = this.livePerson.length
+
+			//	添加入住人
+			if (len < this.roomNum) {
+				let person = {name: ''}
+				for (var i = 0; i < this.roomNum - len; i ++) {
+					this.livePerson.push(person)
+				}
+			}
+
+			//	减少联系人
+			if (len > this.roomNum) {
+				this.livePerson = this.livePerson.slice(0, this.roomNum)
+			}
+			this.$emit('select-room-num', this.roomNum)
+		},
+
+		inputBlur (index, e) {
+			let val = e.target.value
+			this.$set(this.livePerson, index, {name: val})
+		},
+
+		getlivePersonArr () {
+			let push = true
+			let arr = []
+			this.livePerson.forEach(function (item) {
+				if (!item.name) {
+					push = false
+					return
+				}
+				arr.push(item.name)
+			})
+
+			return {
+				arr: arr,
+				isComplete: push
+			}
 		}
 	}
 }

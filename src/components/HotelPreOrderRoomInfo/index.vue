@@ -1,12 +1,13 @@
 <template>
 	<div class="hotel_pre_order_room_info">
 		<div class="bg_ff color_66">
-			<h1 class="font32 color_33">豪华商务房</h1>
+			<h1 class="font32 color_33">{{ hotelName }}</h1>
+			<div class="type">{{ titleName }}</div>
 			<div>
-				<span>入住：2017年7月8日</span>
-				<span>离店：2017年7月8日</span>
+				<span>入住：{{ checkInDate }}</span>
+				<span>离店：{{ checkOutDate }}</span>
 			</div>
-			<p>大床1.8米<em>含双早</em></p>
+			<p>{{ bedDesc }}<em>{{ planName }}</em></p>
 		</div>
 	</div>
 </template>
@@ -19,10 +20,13 @@
 		padding: 0 .28rem;
 		border-radius: .1rem;
 	}
-
+	.type{
+		font-weight: bold;
+		margin-bottom: .2rem;
+	}
 	h1 {
 		font-weight: bold;
-		padding: .2rem 0;
+		padding-top: .2rem;
 	}
 	span:first-child{
 		margin-right: .2rem;
@@ -35,3 +39,28 @@
 	}
 }
 </style>
+
+<script>
+export default {
+	data () {
+		return {
+			hotelName: '',
+			titleName: '',
+			checkInDate: '',
+			checkOutDate: '',
+			bedDesc: '',
+			planName: ''
+		}
+	},
+
+	created () {
+		let hotelInfo = JSON.parse(sessionStorage.getItem('hotelOrderInfoObj'))
+		this.hotelName = hotelInfo.hotelName
+		this.titleName = hotelInfo.titleName
+		this.checkInDate = hotelInfo.checkInDate
+		this.checkOutDate = hotelInfo.checkOutDate
+		this.bedDesc = hotelInfo.bedDesc
+		this.planName = hotelInfo.planName
+	}
+}
+</script>

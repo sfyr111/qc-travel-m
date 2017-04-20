@@ -1,6 +1,6 @@
 let timer = null
 
-export default function showTips (str, delay) {
+export default function (str, delay) {
 	delay = delay ? delay : 2000
 	let showTips = document.getElementById('showtips')
 	

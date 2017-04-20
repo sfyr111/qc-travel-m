@@ -1,6 +1,6 @@
 <template>
     <div class="management-air-order-content" v-scroll-bottom="{throttle: 400, distance: 10, loadMore: loadMore}">
-        <div class="air-order-information color_66" v-for="air in listOrderAir">
+        <div class="air-order-information color_66" v-for="air in listOrderAir" @click="toAirDetail(air.orderNo)">
           <p class="air-company">
             <span>{{air.trips[0].airwaysCn}}</span>
             <span>{{air.trips[0].flightNo}}</span>
@@ -25,7 +25,12 @@
           </div>
           <div class="air-price clearfix">
             <div class="fl"><span>￥{{air.trips[0].total}}</span>共<em>1</em>人</div>
-            <div class="fr">待支付</div>
+            <div class="fr">{{air.tradingStatus === 0 ? "订单提交成功" :
+              air.tradingStatus === 1 ? "等待付款" :
+                air.tradingStatus === 2 ? "出票中" :
+                  air.tradingStatus === 3 ? "下单失败" :
+                    air.tradingStatus === 4 ? "出票成功" :
+                      air.tradingStatus === 5 ? "已取消" : ""}}</div>
           </div>
         </div>
     </div>
@@ -40,7 +45,7 @@
             ScrollBottom
         },
         created () {
-          this.initList()
+          this.initList(true)
         },
         computed: {
           ...mapGetters({
@@ -54,21 +59,23 @@
           }
         },
         methods: {
-        	  initList () {
+        	  initList (initQuery) {
                 let opt = {
                   url: configUrl.listOrderAir.dataUrl,
                   type: 'get',
+                  initQuery: initQuery,
                   data: {
                     page: this.page,
                     pageSize: this.pageSize
                   }
-                }
+                };
                 this.$store.dispatch('listOrderAir', opt)
             },
             // 跳转到机票详情页面
-            toAirDetail(){
+            toAirDetail(orderNo){
                 this.$router.push({
-                    name: 'detailAir'
+                  path: 'detailAir',
+                  query: { orderNo: orderNo }
                 })
             },
             loadMore () {

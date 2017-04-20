@@ -1,16 +1,16 @@
 <template>
-	<div class="hotel_mail_address_list none">
-		<ul>
-			<li v-for="$index in 8" class="bg_ff">
-				<div class="border" :class="[$index === 1 ? 'border-t' : 'border-top']">
+	<div class="hotel_mail_address_list" v-show="invoice">
+		<ul v-if="list.length">
+			<li v-for="(item, index) in list" class="bg_ff" @click="selectAddress(item, index)">
+				<div class="border" :class="[index === 0 ? 'border-t' : 'border-top']">
 					<h2 class="font28">
-						广东&nbsp;深圳&nbsp;南山&nbsp;&nbsp;13445677654
+						{{ item.provinceName + ' ' + item.cityName + ' ' + item.areaName }}
 					</h2>
 					<p class="font26 color_66">
-						东发上来会计法撒谎发撒旦&nbsp;1007-08
+						{{ item.address + ' ' + item.phone }}
 					</p>
-					<i class="icon iconfont checked none">&#xe62b;</i>
-					<i class="icon iconfont empty">&#xe61a;</i>
+					<i class="icon iconfont checked" v-if="tabIndex === index">&#xe62b;</i>
+					<i class="icon iconfont empty" v-else>&#xe61a;</i>
 				</div>
 			</li>
 		</ul>
@@ -49,4 +49,43 @@
 .hotel_mail_address_list li:last-child{
 	margin-bottom: .2rem;
 }
+
+
 </style>
+
+<script>
+export default {
+	props: {
+		list: {
+			type: Array,
+			default: []
+		},
+		//	是否需要发票
+		invoice: {
+			type: Number,
+			default: 0
+		}
+	},
+
+	data () {
+		return {
+			tabIndex: 0
+		}
+	},
+
+	methods: {
+		//	选择邮寄地址
+		selectAddress (item, index) {
+			if (this.tabIndex === index) {
+				return
+			}
+
+			this.tabIndex = index
+
+			this.$emit('select-mail-address', item)
+		},
+
+		//	
+	}
+}
+</script>

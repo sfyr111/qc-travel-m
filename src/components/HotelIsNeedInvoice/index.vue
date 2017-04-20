@@ -69,12 +69,8 @@ export default {
 		}
 	},
 	methods: {
-		selectIsNeedInvoice () {}
-	},
-
-	watch: {
-		isNeedInvoice (val) {
-			this.isNeedInvoice = val
+		selectIsNeedInvoice () {
+			this.$emit('is-need-invoice', Number(this.isNeedInvoice))
 		}
 	}
 }

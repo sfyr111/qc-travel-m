@@ -2,14 +2,14 @@
 	<div class="hotel_submit_order bg_ff">
 		<div class="border border-t">
 			<div class="left fl ver-center font28 bsizing">
-				应付金额：&nbsp;<i class="font24 red_icon">¥</i><em class="font3 red_icon">350</em>
+				应付金额：&nbsp;<i class="font24 red_icon">¥</i><em class="font3 red_icon">{{ total }}</em>
 			</div>
 			<div class="middle fl ver-center font28" @click="moneyDetail">
 				费用明细&nbsp;
 				<i class="icon iconfont" v-if="!isShowMoneyDetail">&#xe63c;</i>
 				<i class="icon iconfont" v-else>&#xe63d;</i>
 			</div>
-			<div class="right fl ver-middle font3">提交订单</div>
+			<div class="right fl ver-middle font3" @click="submitOrder">提交订单</div>
 
 			<!-- 明细 -->
 			<div class="money_detail font28" v-if="isShowMoneyDetail" @click="moneyDetail">
@@ -18,7 +18,7 @@
 						<span>房费</span>
 						<span class="red_icon">
 							<em>¥</em>
-							350&nbsp;x1
+							{{ price }} x {{ roomNum }} x {{ days }}
 						</span>
 					</li>
 					<li class="ver-center">
@@ -89,6 +89,29 @@
 
 <script>
 export default {
+	props: {
+		//	总价钱
+		total: {
+			type: Number,
+			default: 0
+		},
+		//	房间单价
+		price: {
+			type: Number,
+			default: 0
+		},
+
+		//	房间数量
+		roomNum: {
+			type: Number,
+			default: 1
+		},
+		//	住多少天
+		days: {
+			type: Number,
+			default: 1
+		}
+	},
 	data () {
 		return {
 			isShowMoneyDetail: false,			//	是否显示费用明细
@@ -96,8 +119,14 @@ export default {
 	},
 
 	methods: {
+		//	费用明细
 		moneyDetail () {
 			this.isShowMoneyDetail = !this.isShowMoneyDetail
+		},
+
+		// 提交订单
+		submitOrder () {
+			this.$emit('submit-order')
 		}
 	}
 }
